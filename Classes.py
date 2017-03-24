@@ -20,9 +20,15 @@ class MakeUI(Frame):
         self.InfosTouches = "Vous êtes un ~ qui cherche à s'échapper du labyrinthe pour gagner du $$$\n\n \
         Tapez Z pour aller vers le haut\n \
         Tapez Q pour aller vers la gauche\n \
-        Tapez D pour aller vers la droite\n"
+        Tapez D pour aller vers la droite\n \
+        Tapez S pour aller vers le bas\n"
         self.FileName = ""
-        # self.bind("<z>", self.Key)
+        
+        # Definition des touches de direction
+        self.bind_all("z", lambda e:self.Clavier("Z"))
+        self.bind_all("q", lambda e:self.Clavier("Q"))
+        self.bind_all("s", lambda e:self.Clavier("S"))
+        self.bind_all("d", lambda e:self.Clavier("D"))
         
         
         # Cadre des informations
@@ -81,18 +87,7 @@ class MakeUI(Frame):
             
             self.MsgInfos["text"] = self.InfosTouches + "\n Position >>   Ligne : " + str(self.PosY+1)+ "   Colonne : " + str(self.PosX)
     
-
     
-    def clavier(self, event):
-        global coords
+    def Clavier(self, touche):
+        self.AfficherTouche["text"] = touche
 
-        touche = event.keysym
-
-        if touche == "z":
-            self.AfficherTouche["text"]= "Z"
-    
-    #def Cliquer(self):
-        #self.NbClic += 1
-        #self.MsgInfos["text"] = "Vous avez cliqué {} fois, bravo !".format(self.NbClic)
-        
-        
