@@ -23,6 +23,8 @@ class MakeUI(Frame):
         Tapez D pour aller vers la droite\n \
         Tapez S pour aller vers le bas\n"
         self.FileName = ""
+        self.CarteActuelle = {}
+        self.ListeLignes = []
         
         # Definition des touches de direction
         self.bind_all("z", lambda e:self.Clavier("Z"))
@@ -58,6 +60,9 @@ class MakeUI(Frame):
         self.AfficherTouche = Label(self.FrameCtrl, text="None",)
         self.AfficherTouche.pack(side="right", padx=5, pady=5)        
         
+        self.Carte = Label(self.FrameCarte, text=".")
+        self.Carte.pack(padx=2, pady=2)
+        
         # Bouton d'incrémentation du nombre de clics
         #self.BtnClic = Button(self.FrameCtrl, text="Cliquez ici!", bg="green", width=20, command=self.Cliquer)
         #self.BtnClic.pack(side="right", padx=5, pady=5)
@@ -65,29 +70,62 @@ class MakeUI(Frame):
 
     def OuvrirCarte(self):
         # Ouverture de la carte au démarrage
-        try:
-            self.Carte
-        except:
-            self.FileName = askopenfilename(title="Ouvrir une carte", filetypes=[('txt files', '.txt'),('all files', '.*')])
-            self.Fichier = open(self.FileName, "r")
-            self.Content = self.Fichier.read()
-            self.Fichier.close()
-            self.Carte = Label(self.FrameCarte, text=self.Content, font=('Lucida Console', 12, 'bold')).pack(padx=2, pady=2)
-        
-            if self.FileName[-5] == '1':
-                self.PosX = 2
-                self.PosY = 1
-                self.NbLignes = 6
-                self.FrameCarte["text"] = " 1 : Jardinet  (Facile)"
-            elif self.FileName[-5] == '2':
-                self.PosX = 4
-                self.PosY = 1
-                self.NbLignes = 20
-                self.FrameCarte["text"] = " 2 : Petite caverne  (Moyen)"
-            
-            self.MsgInfos["text"] = self.InfosTouches + "\n Position >>   Ligne : " + str(self.PosY+1)+ "   Colonne : " + str(self.PosX)
-    
-    
-    def Clavier(self, touche):
-        self.AfficherTouche["text"] = touche
 
+        self.FileName = askopenfilename(title="Ouvrir une carte", filetypes=[('txt files', '.txt'),('all files', '.*')])
+        self.Fichier = open(self.FileName, "r")
+        self.CarteActuelle = self.Fichier.read()        
+        self.Fichier.close()
+        
+        self.Carte["text"] = self.CarteActuelle
+        self.Carte["font"] = ('Lucida Console', 12, 'bold')
+        #self.Carte = Label(self.FrameCarte, text=self.CarteActuelle, font=('Lucida Console', 12, 'bold')).pack(padx=2, pady=2)
+    
+        if self.FileName[-5] == '1':
+            self.PosX = 2
+            self.PosY = 1
+            self.NbLignes = 6
+            self.FrameCarte["text"] = " 1 : Jardinet  (Facile)"
+        elif self.FileName[-5] == '2':
+            self.PosX = 4
+            self.PosY = 1
+            self.NbLignes = 20
+            self.FrameCarte["text"] = " 2 : Petite caverne  (Moyen)"
+        
+        i = 0
+        j = 0
+        k = 20    
+        while i <= self.NbLignes-1:
+            self.ListeLignes.append(self.CarteActuelle[j:k])
+            #print(ListeLignes[i])
+            i += 1
+            j = k + 1
+            k = j + 20           
+        
+        self.MsgInfos["text"] = self.InfosTouches + "\n Position >>   Ligne : " + str(self.PosY+1)+ "   Colonne : " + str(self.PosX)
+    
+    
+    def Clavier(self, Touche):
+        self.AfficherTouche["text"] = Touche
+        self.TouchePressee = Touche
+        
+        if self.TouchePressee == "Z":
+            self.PosY -= 1
+            
+        elif self.TouchePressee == "Q":
+            self.PosX -= 1        
+        elif self.TouchePressee == "S":
+            self.PosY += 1
+        elif self.TouchePressee == "D":
+            self.PosX += 1
+        
+        
+        i = 0
+        self.CarteActuelle = ""
+        while i <= self.NbLignes-1:
+            self.CarteActuelle += self.ListeLignes[i]
+            self.CarteActuelle += "\n"
+            i += 1
+        
+        
+        self.Carte["text"] = self.CarteActuelle
+        self.MsgInfos["text"] = self.InfosTouches + "\n Position >>   Ligne : " + str(self.PosY+1)+ "   Colonne : " + str(self.PosX)
