@@ -25,6 +25,7 @@ class MakeUI(Frame):
         self.FileName = ""
         self.CarteActuelle = {}
         self.ListeLignes = []
+        self.FinDeCarte = 0
 
         # Definition des touches de direction
         self.bind_all("z", lambda e: self.Play("Z"))
@@ -70,11 +71,16 @@ class MakeUI(Frame):
     def OuvrirCarte(self):
         # Ouverture de la carte au démarrage
 
+        self.ListeLignes = []
+        self.CarteActuelle = {}
+        self.FileName = ""
+
         self.FileName = askopenfilename(title="Ouvrir une carte", filetypes=[('txt files', '.txt'), ('all files', '.*')])
         self.Fichier = open(self.FileName, "r")
         self.CarteActuelle = self.Fichier.read()
         self.Fichier.close()
 
+        self.FinDeCarte = 0
         self.Carte["text"] = self.CarteActuelle
         self.Carte["font"] = ('Lucida Console', 12, 'bold')
 
@@ -108,7 +114,12 @@ class MakeUI(Frame):
 ###################################################################################################################
     def Play(self, Touche):
         self.AfficherTouche["text"] = Touche
-        TouchePressee = Touche
+
+        if self.FinDeCarte == 1:
+            TouchePressee = "NULL"
+        else:
+            TouchePressee = Touche
+
         InfoSup = ""
 
 ######################################################
@@ -117,6 +128,8 @@ class MakeUI(Frame):
             NouvelleLigneDuHero = self.ListeLignes[self.PosY - 1]
             if NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '#':
                 InfoSup = "Il est impossible de traverser un mur !! Bien essayé."
+            elif NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '$':
+                self.FinDeCarte = 1
             else:
                 HeroRemplace = LigneDuHero[self.PosX - 1:self.PosX].replace('~', ' ')
                 DebutNouvelleLigne = LigneDuHero[:self.PosX - 1]
@@ -139,6 +152,8 @@ class MakeUI(Frame):
             LigneDuHero = self.ListeLignes[self.PosY]
             if LigneDuHero[self.PosX - 2:self.PosX - 1] == '#':
                 InfoSup = "Il est impossible de traverser un mur !! Bien essayé."
+            elif LigneDuHero[self.PosX - 2:self.PosX - 1] == '$':
+                self.FinDeCarte = 1
             else:
                 DebutNouvelleLigne = LigneDuHero[0:self.PosX - 2]
                 BlancRemplace = LigneDuHero[self.PosX - 2:self.PosX - 1].replace(' ', '~')
@@ -156,6 +171,8 @@ class MakeUI(Frame):
             NouvelleLigneDuHero = self.ListeLignes[self.PosY + 1]
             if NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '#':
                 InfoSup = "Il est impossible de traverser un mur !! Bien essayé."
+            elif NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '$':
+                self.FinDeCarte = 1
             else:
                 HeroRemplace = LigneDuHero[self.PosX - 1:self.PosX].replace('~', ' ')
                 DebutNouvelleLigne = LigneDuHero[:self.PosX - 1]
@@ -178,6 +195,8 @@ class MakeUI(Frame):
             LigneDuHero = self.ListeLignes[self.PosY]
             if LigneDuHero[self.PosX:self.PosX + 1] == "#":
                 InfoSup = "Il est impossible de traverser un mur !! Bien essayé."
+            elif LigneDuHero[self.PosX:self.PosX + 1] == '$':
+                self.FinDeCarte = 1
             else:
                 HeroRemplace = LigneDuHero[self.PosX - 1:self.PosX].replace('~', ' ')
                 BlancRemplace = LigneDuHero[self.PosX:self.PosX + 1].replace(' ', '~')
@@ -192,11 +211,15 @@ class MakeUI(Frame):
 ######################################################
         i = 0
         self.CarteActuelle = ""
+
         while i <= self.NbLignes - 1:
             self.CarteActuelle += self.ListeLignes[i]
             self.CarteActuelle += "\n"
             i += 1
 
         self.MsgInfosCarte["text"] = InfoSup
-        self.Carte["text"] = self.CarteActuelle
+        if self.FinDeCarte == 0:
+            self.Carte["text"] = self.CarteActuelle
+        else:
+            self.Carte["text"] = self.CarteActuelle + "\nBRAVO : pensez à dépenser vos $$$ !"
         self.MsgInfos["text"] = self.InfosTouches + "\n Position >>   Ligne : " + str(self.PosY + 1) + "   Colonne : " + str(self.PosX)
