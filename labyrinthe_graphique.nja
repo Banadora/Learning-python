@@ -1,0 +1,29 @@
+{
+  "mainFile": "C:/Users/adezalay/Documents/Python/Labyrinthe graphique/Main.py", 
+  "use-tabs": false, 
+  "venv": "", 
+  "relatedProjects": [], 
+  "name": "Labyrinthe graphique", 
+  "license": "", 
+  "url": "", 
+  "pythonPath": "C:\\Python34\\python.exe", 
+  "preExecScript": "", 
+  "additional_builtins": [], 
+  "programParams": "", 
+  "indentation": 4, 
+  "PYTHONPATH": "", 
+  "supported-extensions": [
+    ".py", 
+    ".html", 
+    ".jpg", 
+    ".png", 
+    ".ui", 
+    ".css", 
+    ".json", 
+    ".js", 
+    ".ini"
+  ], 
+  "project-type": "", 
+  "postExecScript": "", 
+  "description": ""
+}
