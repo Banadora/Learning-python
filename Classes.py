@@ -2,9 +2,10 @@
 
 # -*- coding: utf8 -*-
 
-import os
+#import os
 from tkinter import *
 from tkinter.filedialog import *
+from PIL import Image, ImageTk
 
 
 class MakeUI(Frame):
@@ -50,11 +51,11 @@ class MakeUI(Frame):
         self.MsgInfos.pack(side="left", padx=5, pady=5)
 
         # Bouton d'ouverture de carte
-        self.BtnOuvrirCarte = Button(self.FrameInfos, text="Ouvrir", bg="orange", state=DISABLED, width=10, command=self.OuvrirCarte)
+        self.BtnOuvrirCarte = Button(self.FrameInfos, text="Carte", bg="orange", state=DISABLED, width=10, command=self.OuvrirCarte)
         self.BtnOuvrirCarte.pack(side="right", padx=5, pady=5)
 
         # Bouton de choix du personnage
-        self.BtnChoixPerso = Button(self.FrameInfos, text="Choisir", bg="orange", width=10, command=self.ChoisirPerso)
+        self.BtnChoixPerso = Button(self.FrameInfos, text="Personnage", bg="orange", width=10, command=self.ChoisirPerso)
         self.BtnChoixPerso.pack(side="right", padx=5, pady=5)
 
         # Bouton pour quitter le programme
@@ -70,14 +71,17 @@ class MakeUI(Frame):
         self.Carte = Label(self.FrameCarte, text=" ")
         self.Carte.pack(padx=2, pady=2)
 
+        self.CanvasCarte = Canvas(self.FrameCarte)
+        self.CanvasCarte.pack()
+
 ###################################################################################################################
 ###################################################################################################################
     def ChoisirPerso(self):
         # Fonction d'ouverture du fichier personnage
-
-        self.FichierPersoName = ""
-        self.FichierPersoName = askopenfilename(title="Choix du personnage", filetype=[('ico files', '.ico'), ('all files', '.*')])
-        self.FichierPerso = open(self.FichierPersoName, "r")
+        FilePersoName = askopenfilename(title="Choisir un personnage", filetypes=[('ico files', '.ico'), ('all files', '.*')])
+        ImgPerso = Image.open(FilePersoName)
+        TkImgPerso = ImageTk.PhotoImage(ImgPerso)
+        self.CanvasCarte.create_image(250, 250, image=TkImgPerso)
 
         self.BtnOuvrirCarte(state=ACTIVE)
 
