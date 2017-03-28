@@ -151,14 +151,23 @@ class MakeUI(Frame):
              + str(self.PosY + 1) + "   Colonne : " + str(self.PosX)
 
 ######################################################
+        # Suppression de l'ancienne carte si necessaire
         self.CanvasCarte.delete("all")
+
+        # Positionnement du personnage
         #self.CanvasCarte.create_image((self.PosX * 32), (32 + (self.PosY * 32)), image=self.TkImgPerso)
 
+        # Positionnement des blocs
         for x in range(self.NbLignes):
-            self.LigneAScanner = self.ListeLignes[x]
-            self.MsgInfos["text"] = self.LigneAScanner
-            for y in range(self.NbColonnes - 1):
-                self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgMur)
+            for y in range(self.NbColonnes):
+                if self.ListeLignes[x][y] == '#':
+                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgMur)
+                elif self.ListeLignes[x][y] == '$':
+                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgDollar)
+                elif self.ListeLignes[x][y] == '~':
+                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgPerso)
+                elif self.ListeLignes[x][y] == ' ':
+                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgBlank)
 
 ###################################################################################################################
 ###################################################################################################################
