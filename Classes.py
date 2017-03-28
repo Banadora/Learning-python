@@ -46,12 +46,16 @@ class MakeUI(Frame):
         self.FrameCtrl.pack(fill="both", expand="yes", padx=5, pady=5)
 
         # Affichage des informations
-        self.MsgInfos = Label(self.FrameInfos, text="Sélection de la carte")
+        self.MsgInfos = Label(self.FrameInfos, text="Sélection du personnage et de la carte")
         self.MsgInfos.pack(side="left", padx=5, pady=5)
 
         # Bouton d'ouverture de carte
-        self.BtnOuvrir = Button(self.FrameInfos, text="Ouvrir", bg="orange", cursor="pirate", width=10, command=self.OuvrirCarte)
-        self.BtnOuvrir.pack(side="right", padx=5, pady=5)
+        self.BtnOuvrirCarte = Button(self.FrameInfos, text="Ouvrir", bg="orange", state=DISABLED, width=10, command=self.OuvrirCarte)
+        self.BtnOuvrirCarte.pack(side="right", padx=5, pady=5)
+
+        # Bouton de choix du personnage
+        self.BtnChoixPerso = Button(self.FrameInfos, text="Choisir", bg="orange", width=10, command=self.ChoisirPerso)
+        self.BtnChoixPerso.pack(side="right", padx=5, pady=5)
 
         # Bouton pour quitter le programme
         self.BtnQuitter = Button(self.FrameCtrl, text="Quitter", bg="red", width=20, command=self.quit)
@@ -65,6 +69,17 @@ class MakeUI(Frame):
 
         self.Carte = Label(self.FrameCarte, text=" ")
         self.Carte.pack(padx=2, pady=2)
+
+###################################################################################################################
+###################################################################################################################
+    def ChoisirPerso(self):
+        # Fonction d'ouverture du fichier personnage
+
+        self.FichierPersoName = ""
+        self.FichierPersoName = askopenfilename(title="Choix du personnage", filetype=[('ico files', '.ico'), ('all files', '.*')])
+        self.FichierPerso = open(self.FichierPersoName, "r")
+
+        self.BtnOuvrirCarte(state=ACTIVE)
 
 ###################################################################################################################
 ###################################################################################################################
