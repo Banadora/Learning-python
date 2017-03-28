@@ -15,7 +15,7 @@ class MakeUI(Frame):
     def __init__(self, Fenetre, **kwargs):
 
         # Héritage et données
-        Frame.__init__(self, Fenetre, width=768, height=576, **kwargs)
+        Frame.__init__(self, Fenetre, width=1500, height=576, **kwargs)
 
         self.pack(fill=BOTH)
         self.InfosTouches = "Vous êtes un ~ qui cherche à s'échapper du labyrinthe pour gagner du $$$\n\n \
@@ -28,6 +28,14 @@ class MakeUI(Frame):
         self.ListeLignes = []
         self.FinDeCarte = 0
 
+        # Importation des murs et de la sortie $$
+        self.ImgBlank = Image.open('Images/Blank.jpg')
+        TkImgBlank = ImageTk.PhotoImage(self.ImgBlank)
+        self.ImgMur = Image.open('Images/Wall.jpg')
+        TkImgMur = ImageTk.PhotoImage(self.ImgMur)
+        self.ImgDollar = Image.open('Images/Dollar.jpg')
+        TkImgDollar = ImageTk.PhotoImage(self.ImgDollar)
+
         # Definition des touches de direction
         self.bind_all("z", lambda e: self.Play("Z"))
         self.bind_all("q", lambda e: self.Play("Q"))
@@ -35,12 +43,20 @@ class MakeUI(Frame):
         self.bind_all("d", lambda e: self.Play("D"))
 
         # Cadre des informations
-        self.FrameInfos = LabelFrame(self, text="Infos", padx=2, pady=2)
+        self.FrameInfos = LabelFrame(self, text="Intro", padx=2, pady=2)
         self.FrameInfos.pack(fill="both", expand="yes", padx=5, pady=5)
 
-        # Cadre d'affichage de la carte
-        self.FrameCarte = LabelFrame(self, text="Carte", padx=2, pady=2)
-        self.FrameCarte.pack(fill="both", expand="yes", padx=5, pady=5)
+        # Cadre général du jeu
+        self.FrameGeneral = LabelFrame(self, text="Labyrinthe", padx=2, pady=2)
+        self.FrameGeneral.pack(fill="both", expand="yes", padx=5, pady=5)
+
+        # Cadre d'affichage de l'aancienne carte et des infos de jeu
+        self.FrameCarte = LabelFrame(self.FrameGeneral, text="Infos", padx=2, pady=2)
+        self.FrameCarte.pack(side=LEFT, fill="both", expand="yes", padx=5, pady=5)
+
+        # Cadre d'affichage de la carte graphique
+        self.FrameCarteGraph = LabelFrame(self.FrameGeneral, text="Carte", padx=2, pady=2)
+        self.FrameCarteGraph.pack(side=RIGHT, fill="both", expand="yes", padx=5, pady=5)
 
         # Cadre des boutons de commandes
         self.FrameCtrl = Frame(self, padx=2, pady=2)
@@ -65,25 +81,26 @@ class MakeUI(Frame):
         self.AfficherTouche = Label(self.FrameCtrl, text="None",)
         self.AfficherTouche.pack(side="right", padx=5, pady=5)
 
-        self.MsgInfosCarte = Label(self.FrameCarte, text="Pas de carte pour l'instant")
+        self.MsgInfosCarte = Label(self.FrameCarte, text="Pas de carte pour l'instant", width=60)
         self.MsgInfosCarte.pack(padx=2, pady=2)
 
         self.Carte = Label(self.FrameCarte, text=" ")
         self.Carte.pack(padx=2, pady=2)
 
-        self.CanvasCarte = Canvas(self.FrameCarte)
-        self.CanvasCarte.pack()
+        self.CanvasCarte = Canvas(self.FrameCarteGraph, width=640, height=640)
+        self.CanvasCarte.pack(padx=0, pady=0)
 
 ###################################################################################################################
 ###################################################################################################################
     def ChoisirPerso(self):
         # Fonction d'ouverture du fichier personnage
-        FilePersoName = askopenfilename(title="Choisir un personnage", filetypes=[('ico files', '.ico'), ('all files', '.*')])
-        ImgPerso = Image.open(FilePersoName)
-        TkImgPerso = ImageTk.PhotoImage(ImgPerso)
-        self.CanvasCarte.create_image(250, 250, image=TkImgPerso)
+        self.FilePersoName = askopenfilename(title="Choisir un personnage", filetypes=[('ico files', '.ico'), ('all files', '.*')])
+        self.ImgPerso = Image.open(self.FilePersoName)
+        self.TkImgPerso = ImageTk.PhotoImage(self.ImgPerso)
+        self.CanvasCarte.create_image(64, 64, image=self.TkImgPerso)
+        self.ImgPerso.close()
 
-        self.BtnOuvrirCarte(state=ACTIVE)
+        self.BtnOuvrirCarte["state"] = NORMAL
 
 ###################################################################################################################
 ###################################################################################################################
@@ -108,12 +125,12 @@ class MakeUI(Frame):
             self.PosX = 2
             self.PosY = 1
             self.NbLignes = 6
-            self.FrameCarte["text"] = " 1 : Jardinet  (Facile)"
+            self.FrameCarteGraph["text"] = " 1 : Jardinet  (Facile)"
         elif self.FileName[-5] == '2':
             self.PosX = 4
             self.PosY = 1
             self.NbLignes = 20
-            self.FrameCarte["text"] = " 2 : Petite caverne  (Moyen)"
+            self.FrameCarteGraph["text"] = " 2 : Petite caverne  (Moyen)"
 
         i = 0
         j = 0
