@@ -2,7 +2,7 @@
 
 # -*- coding: utf8 -*-
 
-#import os
+import os
 from tkinter import *
 from tkinter.filedialog import *
 from PIL import Image, ImageTk
@@ -29,12 +29,17 @@ class MakeUI(Frame):
         self.FinDeCarte = 0
 
         # Importation des murs et de la sortie $$
-        self.ImgBlank = Image.open('Images/Blank.jpg')
-        TkImgBlank = ImageTk.PhotoImage(self.ImgBlank)
-        self.ImgMur = Image.open('Images/Wall.jpg')
-        TkImgMur = ImageTk.PhotoImage(self.ImgMur)
-        self.ImgDollar = Image.open('Images/Dollar.jpg')
-        TkImgDollar = ImageTk.PhotoImage(self.ImgDollar)
+        self.ImgBlank = Image.open('Images/Blank.ico')
+        self.TkImgBlank = ImageTk.PhotoImage(self.ImgBlank)
+        self.ImgBlank.close()
+
+        self.ImgMur = Image.open('Images/Wall.ico')
+        self.TkImgMur = ImageTk.PhotoImage(self.ImgMur)
+        self.ImgMur.close()
+
+        self.ImgDollar = Image.open('Images/Dollar.ico')
+        self.TkImgDollar = ImageTk.PhotoImage(self.ImgDollar)
+        self.ImgDollar.close()
 
         # Definition des touches de direction
         self.bind_all("z", lambda e: self.Play("Z"))
@@ -81,13 +86,13 @@ class MakeUI(Frame):
         self.AfficherTouche = Label(self.FrameCtrl, text="None",)
         self.AfficherTouche.pack(side="right", padx=5, pady=5)
 
-        self.MsgInfosCarte = Label(self.FrameCarte, text="Pas de carte pour l'instant", width=60)
+        self.MsgInfosCarte = Label(self.FrameCarte, text=self.InfosTouches, width=60)
         self.MsgInfosCarte.pack(padx=2, pady=2)
 
         self.Carte = Label(self.FrameCarte, text=" ")
         self.Carte.pack(padx=2, pady=2)
 
-        self.CanvasCarte = Canvas(self.FrameCarteGraph, width=640, height=640)
+        self.CanvasCarte = Canvas(self.FrameCarteGraph, width=680, height=680)
         self.CanvasCarte.pack(padx=0, pady=0)
 
 ###################################################################################################################
@@ -97,9 +102,7 @@ class MakeUI(Frame):
         self.FilePersoName = askopenfilename(title="Choisir un personnage", filetypes=[('ico files', '.ico'), ('all files', '.*')])
         self.ImgPerso = Image.open(self.FilePersoName)
         self.TkImgPerso = ImageTk.PhotoImage(self.ImgPerso)
-        self.CanvasCarte.create_image(64, 64, image=self.TkImgPerso)
         self.ImgPerso.close()
-
         self.BtnOuvrirCarte["state"] = NORMAL
 
 ###################################################################################################################
@@ -125,26 +128,37 @@ class MakeUI(Frame):
             self.PosX = 2
             self.PosY = 1
             self.NbLignes = 6
+            self.NbColonnes = 20
             self.FrameCarteGraph["text"] = " 1 : Jardinet  (Facile)"
         elif self.FileName[-5] == '2':
             self.PosX = 4
             self.PosY = 1
             self.NbLignes = 20
+            self.NbColonnes = 20
             self.FrameCarteGraph["text"] = " 2 : Petite caverne  (Moyen)"
 
         i = 0
         j = 0
-        k = 20
+        k = self.NbColonnes
         while i <= self.NbLignes - 1:
             self.ListeLignes.append(self.CarteActuelle[j:k])
-            #print(ListeLignes[i])
             i += 1
             j = k + 1
-            k = j + 20
+            k = j + self.NbColonnes
 
         self.MsgInfosCarte["text"] = ""
-        self.MsgInfos["text"] = self.InfosTouches + "\n Position >>   Ligne : "\
+        self.MsgInfos["text"] = "\n Position >>   Ligne : "\
              + str(self.PosY + 1) + "   Colonne : " + str(self.PosX)
+
+######################################################
+        self.CanvasCarte.delete("all")
+        #self.CanvasCarte.create_image((self.PosX * 32), (32 + (self.PosY * 32)), image=self.TkImgPerso)
+
+        for x in range(self.NbLignes):
+            self.LigneAScanner = self.ListeLignes[x]
+            self.MsgInfos["text"] = self.LigneAScanner
+            for y in range(self.NbColonnes - 1):
+                self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgMur)
 
 ###################################################################################################################
 ###################################################################################################################
@@ -258,4 +272,4 @@ class MakeUI(Frame):
             self.Carte["text"] = self.CarteActuelle
         else:
             self.Carte["text"] = self.CarteActuelle + "\nBRAVO : pensez à dépenser vos $$$ !"
-        self.MsgInfos["text"] = self.InfosTouches + "\n Position >>   Ligne : " + str(self.PosY + 1) + "   Colonne : " + str(self.PosX)
+        self.MsgInfos["text"] = "\n Position >>   Ligne : " + str(self.PosY + 1) + "   Colonne : " + str(self.PosX)
