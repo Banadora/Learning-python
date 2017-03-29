@@ -28,6 +28,7 @@ class MakeUI(Frame):
         self.CarteActuelle = {}
         self.ListeLignes = []
         self.FinDeCarte = 0
+        self.TempPath = ""
 
         # Importation des murs et de la sortie $$
         self.ImgBlank = Image.open('Images/Blank.ico')
@@ -49,19 +50,19 @@ class MakeUI(Frame):
         self.bind_all("d", lambda e: self.Play("D"))
 
         # Cadre des informations
-        self.FrameInfos = LabelFrame(self, text="Intro", padx=2, pady=2)
+        self.FrameInfos = LabelFrame(self, text="Choix des paramètres", padx=2, pady=2)
         self.FrameInfos.pack(fill="both", expand="yes", padx=5, pady=5)
 
         # Cadre général du jeu
-        self.FrameGeneral = LabelFrame(self, text="Labyrinthe", padx=2, pady=2)
-        self.FrameGeneral.pack(fill="both", expand="yes", padx=5, pady=5)
+        #self.FrameGeneral = LabelFrame(self, text="Labyrinthe", padx=2, pady=2)
+        #self.FrameGeneral.pack(fill="both", expand="yes", padx=5, pady=5)
 
         # Cadre d'affichage de l'aancienne carte et des infos de jeu
-        self.FrameCarte = LabelFrame(self.FrameGeneral, text="Infos", padx=2, pady=2)
+        self.FrameCarte = LabelFrame(self, text="Infos", padx=2, pady=2)
         self.FrameCarte.pack(side=LEFT, fill="both", expand="yes", padx=2, pady=2)
 
         # Cadre d'affichage de la carte graphique
-        self.FrameCarteGraph = LabelFrame(self.FrameGeneral, text="Carte", padx=2, pady=2)
+        self.FrameCarteGraph = LabelFrame(self, text="Carte", padx=2, pady=2)
         self.FrameCarteGraph.pack(side=RIGHT, fill="both", expand="yes", padx=2, pady=2)
 
         # Cadre des boutons de commandes
@@ -69,20 +70,19 @@ class MakeUI(Frame):
         self.FrameCtrl.pack(fill="both", expand="yes", padx=5, pady=5)
 
         # Affichage des informations
-        self.MsgInfos = Label(self.FrameInfos, text="Sélection du personnage et de la carte")
-        self.MsgInfos.pack(side="left", padx=5, pady=5)
-
-        # Bouton pour quitter le programme
-        self.BtnQuitter = Button(self.FrameInfos, text="Quitter", bg="red", width=10, command=self.quit)
-        self.BtnQuitter.pack(side="right", padx=5, pady=5)
+        self.MsgInfos = Label(self.FrameInfos, text=" ^ Menus de sélection du personnage et de la carte \t\t\t\t     Personnage : ")
+        self.MsgInfos.pack(side=LEFT, padx=5, pady=5)
 
         # Bouton d'ouverture de carte
         self.BtnOuvrirCarte = Button(self.FrameInfos, text="Carte", bg="orange", state=DISABLED, width=10, command=self.OuvrirCarte)
         self.BtnOuvrirCarte.pack(side="right", padx=5, pady=5)
 
-        # Bouton de choix du personnage
-        self.BtnChoixPerso = Button(self.FrameInfos, text="Personnage", bg="orange", state=NORMAL, width=10, command=self.ChoisirPerso)
-        self.BtnChoixPerso.pack(side="right", padx=5, pady=5)
+        # Affichage carte selectionée
+        self.LabelCarteSelect = Label(self.FrameInfos)
+
+        # Affichage du personnage selectionné
+        self.CanvasPersoSelect = Canvas(self.FrameInfos, width=500, height=40)
+        self.CanvasPersoSelect.pack(side=RIGHT, padx=5, pady=5)
 
         self.MsgInfosCarte = Label(self.FrameCarte, text="", width=45)
         self.MsgInfosCarte.pack(padx=2, pady=2)
@@ -93,15 +93,22 @@ class MakeUI(Frame):
         self.CanvasCarte = Canvas(self.FrameCarteGraph, width=670, height=660)
         self.CanvasCarte.pack(padx=0, pady=0)
 
+        self.FctMenus(Fenetre)
+
 ###################################################################################################################
 ###################################################################################################################
-    def ChoisirPerso(self):
+    def ChoisirPerso(self, Perso):
         # Fonction d'ouverture du fichier personnage
-        self.FilePersoName = askopenfilename(title="Choisir un personnage", filetypes=[('ico files', '.ico'), ('all files', '.*')])
-        self.ImgPerso = Image.open(self.FilePersoName)
+        self.TempPath = 'Images/Characters/' + Perso + '.ico'
+        self.ImgPerso = Image.open(self.TempPath)
         self.TkImgPerso = ImageTk.PhotoImage(self.ImgPerso)
         self.ImgPerso.close()
+
+        self.CanvasPersoSelect.create_image(20, 20, image=self.TkImgPerso)
+
         self.BtnOuvrirCarte["state"] = NORMAL
+
+        return self.TkImgPerso
 
 ###################################################################################################################
 ###################################################################################################################
@@ -295,3 +302,67 @@ class MakeUI(Frame):
         else:
             InfoSup = "\nBRAVO : pensez à dépenser vos $$$ !"
             self.MsgInfosCarteSup["text"] = InfoSup
+
+###################################################################################################################
+###################################################################################################################
+    def FctMenus(self, Fenetre):
+        # Menus
+        self.Menubar = Menu(Fenetre)
+
+        self.MenuPerso = Menu(self.Menubar, tearoff=0)
+
+        self.MenuPerso.add_command(label="Alien", command=lambda: self.ChoisirPerso("Alien"))
+        self.MenuPerso.add_command(label="Angel", command=lambda: self.ChoisirPerso("Angel"))
+        self.MenuPerso.add_command(label="Baby", command=lambda: self.ChoisirPerso("Baby"))
+
+        self.MenuPerso.add_command(label="Boxer", command=lambda: self.ChoisirPerso("Boxer"))
+        self.MenuPerso.add_command(label="Chef", command=lambda: self.ChoisirPerso("Chef"))
+        self.MenuPerso.add_command(label="Clown", command=lambda: self.ChoisirPerso("Clown"))
+
+        self.MenuPerso.add_command(label="Dad", command=lambda: self.ChoisirPerso("Dad"))
+        self.MenuPerso.add_command(label="Devil", command=lambda: self.ChoisirPerso("Devil"))
+        self.MenuPerso.add_command(label="Doctor", command=lambda: self.ChoisirPerso("Doctor"))
+
+        self.MenuPerso.add_command(label="Dragon", command=lambda: self.ChoisirPerso("Dragon"))
+        self.MenuPerso.add_command(label="Firefighter", command=lambda: self.ChoisirPerso("Firefighter"))
+        self.MenuPerso.add_command(label="Ghost", command=lambda: self.ChoisirPerso("Ghost"))
+
+        self.MenuPerso.add_command(label="Girl", command=lambda: self.ChoisirPerso("Girl"))
+        self.MenuPerso.add_command(label="Kid", command=lambda: self.ChoisirPerso("Kid"))
+        self.MenuPerso.add_command(label="King", command=lambda: self.ChoisirPerso("King"))
+
+        self.MenuPerso.add_command(label="Knight", command=lambda: self.ChoisirPerso("Knight"))
+        self.MenuPerso.add_command(label="Lawyer", command=lambda: self.ChoisirPerso("Lawyer"))
+        self.MenuPerso.add_command(label="Leprechaun", command=lambda: self.ChoisirPerso("Leprechaun"))
+
+        self.MenuPerso.add_command(label="Man", command=lambda: self.ChoisirPerso("Man"))
+        self.MenuPerso.add_command(label="Mermaid", command=lambda: self.ChoisirPerso("Mermaid"))
+        self.MenuPerso.add_command(label="Monster", command=lambda: self.ChoisirPerso("Monster"))
+
+        self.MenuPerso.add_command(label="Ninja", command=lambda: self.ChoisirPerso("Ninja"))
+        self.MenuPerso.add_command(label="Nurse", command=lambda: self.ChoisirPerso("Nurse"))
+        self.MenuPerso.add_command(label="Pirate", command=lambda: self.ChoisirPerso("Pirate"))
+
+        self.MenuPerso.add_command(label="Policeman", command=lambda: self.ChoisirPerso("Policeman"))
+        self.MenuPerso.add_command(label="Prince", command=lambda: self.ChoisirPerso("Prince"))
+        self.MenuPerso.add_command(label="Princess", command=lambda: self.ChoisirPerso("Princess"))
+
+        self.MenuPerso.add_command(label="Queen", command=lambda: self.ChoisirPerso("Queen"))
+        self.MenuPerso.add_command(label="Robot", command=lambda: self.ChoisirPerso("Robot"))
+        self.MenuPerso.add_command(label="Santa", command=lambda: self.ChoisirPerso("Santa"))
+
+        self.MenuPerso.add_command(label="Snowman", command=lambda: self.ChoisirPerso("Snowman"))
+        self.MenuPerso.add_command(label="Superhero", command=lambda: self.ChoisirPerso("Superhero"))
+        self.MenuPerso.add_command(label="Teacher", command=lambda: self.ChoisirPerso("Teacher"))
+
+        self.MenuPerso.add_command(label="Troll", command=lambda: self.ChoisirPerso("Troll"))
+        self.MenuPerso.add_command(label="Vampire", command=lambda: self.ChoisirPerso("Vampire"))
+        self.MenuPerso.add_command(label="Werewolf", command=lambda: self.ChoisirPerso("Werewolf"))
+
+        self.MenuPerso.add_command(label="Witch", command=lambda: self.ChoisirPerso("Witch"))
+        self.MenuPerso.add_command(label="Zombie", command=lambda: self.ChoisirPerso("Zombie"))
+
+        self.Menubar.add_cascade(label="Personnages", menu=self.MenuPerso)
+
+######################################################
+        Fenetre.config(menu=self.Menubar)
