@@ -395,14 +395,14 @@ class MakeUI(Frame):
     def ChangerNiveau(self, Carte):
         if '4.1' in Carte:
             self.PosX = 19
-            self.PosY = 6
+            self.PosY = 5
             self.NbLignes = 8
             self.NbColonnes = 20
             self.FrameCarteGraph["text"] = " 4.2 - Plus haut (Facile)"
             NouvelleCarte = "4.2 - Plus haut (Facile)"
         if '4.2' in Carte:
             self.PosX = 19
-            self.PosY = 6
+            self.PosY = 5
             self.NbLignes = 8
             self.NbColonnes = 20
             self.FrameCarteGraph["text"] = " 4.1 - Plus haut (Facile)"
