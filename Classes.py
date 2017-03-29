@@ -29,6 +29,7 @@ class MakeUI(Frame):
         self.CarteActuelle = {}
         self.ListeLignes = []
         self.FinDeCarte = 0
+        self.PlayFinalSound = 1
         self.TempPath = ""
 
         # Importation des images
@@ -124,6 +125,8 @@ class MakeUI(Frame):
         self.CarteActuelle = {}
         self.FileName = ""
         self.MsgInfosCarte["text"] = ""
+        self.FinDeCarte = 0
+        self.PlayFinalSound = 1
 
         self.TempPathCarte = 'Cartes/' + Carte + '.txt'
         #self.FileName = askopenfilename(title="Ouvrir une carte", filetypes=[('txt files', '.txt'), ('all files', '.*')])
@@ -161,7 +164,6 @@ class MakeUI(Frame):
             self.FrameCarteGraph["text"] = " 4.1 - Plus haut (Facile)"
 
 ######################################################
-        self.FinDeCarte = 0
         self.MsgInfosCarte["font"] = ('Lucida Console', 8)
 
         i = 0
@@ -311,10 +313,12 @@ class MakeUI(Frame):
         if self.FinDeCarte == 0:
             self.MsgInfosCarteSup["text"] = InfoSup
         else:
-            winsound.PlaySound('Sons/Caisse enregistreuse.wav', winsound.SND_FILENAME)
-            winsound.PlaySound('Sons/Pieces.wav', winsound.SND_FILENAME)
             InfoSup = "\nBRAVO : pensez à dépenser vos $$$ !"
             self.MsgInfosCarteSup["text"] = InfoSup
+            if self.PlayFinalSound == 1:
+                winsound.PlaySound('Sons/Caisse enregistreuse.wav', winsound.SND_FILENAME)
+                winsound.PlaySound('Sons/Pieces.wav', winsound.SND_FILENAME)
+                self.PlayFinalSound = 0
 
 ###################################################################################################################
 ###################################################################################################################
