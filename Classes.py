@@ -74,11 +74,8 @@ class MakeUI(Frame):
         self.MsgInfos.pack(side=LEFT, padx=5, pady=5)
 
         # Bouton d'ouverture de carte
-        self.BtnOuvrirCarte = Button(self.FrameInfos, text="Carte", bg="orange", state=DISABLED, width=10, command=self.OuvrirCarte)
-        self.BtnOuvrirCarte.pack(side="right", padx=5, pady=5)
-
-        # Affichage carte selectionée
-        self.LabelCarteSelect = Label(self.FrameInfos)
+        #self.BtnOuvrirCarte = Button(self.FrameInfos, text="Carte", bg="orange", state=DISABLED, width=10, command=self.OuvrirCarte)
+        #self.BtnOuvrirCarte.pack(side="right", padx=5, pady=5)
 
         # Affichage du personnage selectionné
         self.CanvasPersoSelect = Canvas(self.FrameInfos, width=500, height=40)
@@ -99,8 +96,8 @@ class MakeUI(Frame):
 ###################################################################################################################
     def ChoisirPerso(self, Perso):
         # Fonction d'ouverture du fichier personnage
-        self.TempPath = 'Images/Characters/' + Perso + '.ico'
-        self.ImgPerso = Image.open(self.TempPath)
+        self.TempPathPerso = 'Images/Characters/' + Perso + '.ico'
+        self.ImgPerso = Image.open(self.TempPathPerso)
         self.TkImgPerso = ImageTk.PhotoImage(self.ImgPerso)
         self.ImgPerso.close()
 
@@ -112,33 +109,43 @@ class MakeUI(Frame):
 
 ###################################################################################################################
 ###################################################################################################################
-    def OuvrirCarte(self):
+    def OuvrirCarte(self, Carte):
         # Ouverture de la carte au démarrage
-
         self.ListeLignes = []
         self.CarteActuelle = {}
         self.FileName = ""
         self.MsgInfosCarte["text"] = ""
 
-        self.FileName = askopenfilename(title="Ouvrir une carte", filetypes=[('txt files', '.txt'), ('all files', '.*')])
-        self.Fichier = open(self.FileName, "r")
+        self.TempPathCarte = 'Cartes/' + Carte + '.txt'
+        #self.FileName = askopenfilename(title="Ouvrir une carte", filetypes=[('txt files', '.txt'), ('all files', '.*')])
+
+        self.Fichier = open(self.TempPathCarte, "r")
         self.CarteActuelle = self.Fichier.read()
         self.Fichier.close()
 
         # Y = Ligne   X = Colonne
-        if self.FileName[-5] == '1':
+        #if self.FileName[-5] == '1':
+        if 'Jardinet' in self.TempPathCarte:
             self.PosX = 2
             self.PosY = 1
             self.NbLignes = 6
             self.NbColonnes = 20
             self.FrameCarteGraph["text"] = " 1 : Jardinet  (Facile)"
-        elif self.FileName[-5] == '2':
+        #elif self.FileName[-5] == '2':
+        elif 'Petite caverne' in self.TempPathCarte:
             self.PosX = 4
             self.PosY = 1
             self.NbLignes = 20
             self.NbColonnes = 20
-            self.FrameCarteGraph["text"] = " 2 : Petite caverne  (Moyen)"
+            self.FrameCarteGraph["text"] = " 2 : Petite caverne (Moyen)"
+        elif 'Serpentin' in self.TempPathCarte:
+            self.PosX = 10
+            self.PosY = 9
+            self.NbLignes = 20
+            self.NbColonnes = 20
+            self.FrameCarteGraph["text"] = " 3 : Serpentin (Moyen)"
 
+######################################################
         self.FinDeCarte = 0
         self.MsgInfosCarte["font"] = ('Lucida Console', 8)
 
@@ -363,6 +370,15 @@ class MakeUI(Frame):
         self.MenuPerso.add_command(label="Zombie", command=lambda: self.ChoisirPerso("Zombie"))
 
         self.Menubar.add_cascade(label="Personnages", menu=self.MenuPerso)
+
+######################################################
+        self.MenuCarte = Menu(self.Menubar, tearoff=0)
+
+        self.MenuCarte.add_command(label="1 : Jardinet (Facile)", command=lambda: self.OuvrirCarte("1 - Jardinet (Facile)"))
+        self.MenuCarte.add_command(label="2 : Petite caverne (Moyen)", command=lambda: self.OuvrirCarte("2 - Petite caverne (Moyen)"))
+        self.MenuCarte.add_command(label="3 : Serpentin (Moyen)", command=lambda: self.OuvrirCarte("3 - Serpentin (Moyen)"))
+
+        self.Menubar.add_cascade(label="Cartes", menu=self.MenuCarte)
 
 ######################################################
         Fenetre.config(menu=self.Menubar)
