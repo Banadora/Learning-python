@@ -30,7 +30,7 @@ class MakeUI(Frame):
         self.FinDeCarte = 0
         self.TempPath = ""
 
-        # Importation des murs et de la sortie $$
+        # Importation des images
         self.ImgBlank = Image.open('Images/Blank.ico')
         self.TkImgBlank = ImageTk.PhotoImage(self.ImgBlank)
         self.ImgBlank.close()
@@ -42,6 +42,14 @@ class MakeUI(Frame):
         self.ImgDollar = Image.open('Images/Dollar.ico')
         self.TkImgDollar = ImageTk.PhotoImage(self.ImgDollar)
         self.ImgDollar.close()
+
+        self.ImgStairsUp = Image.open('Images/StairsUp.ico')
+        self.TkImgStairsUp = ImageTk.PhotoImage(self.ImgStairsUp)
+        self.ImgStairsUp.close()
+
+        self.ImgStairsDown = Image.open('Images/StairsDown.ico')
+        self.TkImgStairsDown = ImageTk.PhotoImage(self.ImgStairsDown)
+        self.ImgStairsDown.close()
 
         # Definition des touches de direction
         self.bind_all("z", lambda e: self.Play("Z"))
@@ -125,25 +133,31 @@ class MakeUI(Frame):
 
         # Y = Ligne   X = Colonne
         #if self.FileName[-5] == '1':
-        if 'Jardinet' in self.TempPathCarte:
+        if '1.0' in self.TempPathCarte:
             self.PosX = 2
             self.PosY = 1
             self.NbLignes = 6
             self.NbColonnes = 20
             self.FrameCarteGraph["text"] = " 1 : Jardinet  (Facile)"
         #elif self.FileName[-5] == '2':
-        elif 'Petite caverne' in self.TempPathCarte:
+        elif '2.0' in self.TempPathCarte:
             self.PosX = 4
             self.PosY = 1
             self.NbLignes = 20
             self.NbColonnes = 20
             self.FrameCarteGraph["text"] = " 2 : Petite caverne (Moyen)"
-        elif 'Serpentin' in self.TempPathCarte:
+        elif '3.0' in self.TempPathCarte:
             self.PosX = 10
             self.PosY = 9
             self.NbLignes = 20
             self.NbColonnes = 20
             self.FrameCarteGraph["text"] = " 3 : Serpentin (Moyen)"
+        elif '4.1.1' in self.TempPathCarte:
+            self.PosX = 3
+            self.PosY = 4
+            self.NbLignes = 8
+            self.NbColonnes = 20
+            self.FrameCarteGraph["text"] = " 4.1 - Plus haut (Facile)"
 
 ######################################################
         self.FinDeCarte = 0
@@ -163,21 +177,7 @@ class MakeUI(Frame):
              + str(self.PosY + 1) + "   Colonne : " + str(self.PosX) + \
         "\n\n\n---------------------------------------------------------\n\n"
 
-######################################################
-        # Suppression de l'ancienne carte si necessaire
-        self.CanvasCarte.delete("all")
-
-        # Positionnement des blocs
-        for x in range(self.NbLignes):
-            for y in range(self.NbColonnes):
-                if self.ListeLignes[x][y] == '#':
-                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgMur)
-                elif self.ListeLignes[x][y] == '$':
-                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgDollar)
-                elif self.ListeLignes[x][y] == '~':
-                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgPerso)
-                elif self.ListeLignes[x][y] == ' ':
-                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgBlank)
+        self.AfficherCarte()
 
 ###################################################################################################################
 ###################################################################################################################
@@ -197,6 +197,10 @@ class MakeUI(Frame):
                 InfoSup = "\n\nIl est impossible de traverser un mur !! \nBien essayé."
             elif NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '$':
                 self.FinDeCarte = 1
+            elif NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '^':
+                self.ChangerNiveau(self.TempPathCarte)
+            elif NouvelleLigneDuHero[self.PosX - 1:self.PosX] == 'v':
+                self.ChangerNiveau(self.TempPathCarte)
             else:
                 HeroRemplace = LigneDuHero[self.PosX - 1:self.PosX].replace('~', ' ')
                 DebutNouvelleLigne = LigneDuHero[:self.PosX - 1]
@@ -221,6 +225,10 @@ class MakeUI(Frame):
                 InfoSup = "\n\nIl est impossible de traverser un mur !! \nBien essayé."
             elif LigneDuHero[self.PosX - 2:self.PosX - 1] == '$':
                 self.FinDeCarte = 1
+            elif LigneDuHero[self.PosX - 2:self.PosX - 1] == '^':
+                self.ChangerNiveau(self.TempPathCarte)
+            elif LigneDuHero[self.PosX - 2:self.PosX - 1] == 'v':
+                self.ChangerNiveau(self.TempPathCarte)
             else:
                 DebutNouvelleLigne = LigneDuHero[0:self.PosX - 2]
                 BlancRemplace = LigneDuHero[self.PosX - 2:self.PosX - 1].replace(' ', '~')
@@ -240,6 +248,10 @@ class MakeUI(Frame):
                 InfoSup = "\n\nIl est impossible de traverser un mur !! \nBien essayé."
             elif NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '$':
                 self.FinDeCarte = 1
+            elif NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '^':
+                self.ChangerNiveau(self.TempPathCarte)
+            elif NouvelleLigneDuHero[self.PosX - 1:self.PosX] == 'v':
+                self.ChangerNiveau(self.TempPathCarte)
             else:
                 HeroRemplace = LigneDuHero[self.PosX - 1:self.PosX].replace('~', ' ')
                 DebutNouvelleLigne = LigneDuHero[:self.PosX - 1]
@@ -264,6 +276,10 @@ class MakeUI(Frame):
                 InfoSup = "\n\nIl est impossible de traverser un mur !! \nBien essayé."
             elif LigneDuHero[self.PosX:self.PosX + 1] == '$':
                 self.FinDeCarte = 1
+            elif LigneDuHero[self.PosX:self.PosX + 1] == '^':
+                self.ChangerNiveau(self.TempPathCarte)
+            elif LigneDuHero[self.PosX:self.PosX + 1] == 'v':
+                self.ChangerNiveau(self.TempPathCarte)
             else:
                 HeroRemplace = LigneDuHero[self.PosX - 1:self.PosX].replace('~', ' ')
                 BlancRemplace = LigneDuHero[self.PosX:self.PosX + 1].replace(' ', '~')
@@ -276,22 +292,9 @@ class MakeUI(Frame):
                 self.PosX += 1
 
 ######################################################
+        self.AfficherCarte()
+
         i = 0
-        self.CarteActuelle = ""
-
-        # Re-positionnement des blocs
-        self.CanvasCarte.delete("all")
-        for x in range(self.NbLignes):
-            for y in range(self.NbColonnes):
-                if self.ListeLignes[x][y] == '#':
-                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgMur)
-                elif self.ListeLignes[x][y] == '$':
-                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgDollar)
-                elif self.ListeLignes[x][y] == '~':
-                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgPerso)
-                elif self.ListeLignes[x][y] == ' ':
-                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgBlank)
-
         while i <= self.NbLignes - 1:
             self.CarteActuelle += self.ListeLignes[i]
             self.CarteActuelle += "\n"
@@ -374,11 +377,54 @@ class MakeUI(Frame):
 ######################################################
         self.MenuCarte = Menu(self.Menubar, tearoff=0)
 
-        self.MenuCarte.add_command(label="1 : Jardinet (Facile)", command=lambda: self.OuvrirCarte("1 - Jardinet (Facile)"))
-        self.MenuCarte.add_command(label="2 : Petite caverne (Moyen)", command=lambda: self.OuvrirCarte("2 - Petite caverne (Moyen)"))
-        self.MenuCarte.add_command(label="3 : Serpentin (Moyen)", command=lambda: self.OuvrirCarte("3 - Serpentin (Moyen)"))
+        self.MenuCarte.add_command(label="1 : Jardinet (Facile)", command=lambda: self.OuvrirCarte("1.0 - Jardinet (Facile)"))
+        self.MenuCarte.add_command(label="2 : Petite caverne (Moyen)", command=lambda: self.OuvrirCarte("2.0 - Petite caverne (Moyen)"))
+        self.MenuCarte.add_command(label="3 : Serpentin (Moyen)", command=lambda: self.OuvrirCarte("3.0 - Serpentin (Moyen)"))
+        self.MenuCarte.add_command(label="4 : Plus haut (Facile)", command=lambda: self.OuvrirCarte("4.1.1 - Plus haut (Facile)"))
 
         self.Menubar.add_cascade(label="Cartes", menu=self.MenuCarte)
 
 ######################################################
         Fenetre.config(menu=self.Menubar)
+
+###################################################################################################################
+###################################################################################################################
+    def ChangerNiveau(self, Carte):
+        if '4.1' in Carte:
+            self.PosX = 19
+            self.PosY = 6
+            self.NbLignes = 8
+            self.NbColonnes = 20
+            self.FrameCarteGraph["text"] = " 4.2 - Plus haut (Facile)"
+            NouvelleCarte = "4.2 - Plus haut (Facile)"
+        if '4.2' in Carte:
+            self.PosX = 19
+            self.PosY = 6
+            self.NbLignes = 8
+            self.NbColonnes = 20
+            self.FrameCarteGraph["text"] = " 4.1 - Plus haut (Facile)"
+            NouvelleCarte = "4.1.2 - Plus haut (Facile)"
+
+        self.OuvrirCarte(NouvelleCarte)
+
+###################################################################################################################
+###################################################################################################################
+    def AfficherCarte(self):
+        # Suppression de l'ancienne carte si necessaire
+        self.CanvasCarte.delete("all")
+
+        # Positionnement des blocs
+        for x in range(self.NbLignes):
+            for y in range(self.NbColonnes):
+                if self.ListeLignes[x][y] == '#':
+                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgMur)
+                elif self.ListeLignes[x][y] == '$':
+                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgDollar)
+                elif self.ListeLignes[x][y] == '~':
+                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgPerso)
+                elif self.ListeLignes[x][y] == ' ':
+                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgBlank)
+                elif self.ListeLignes[x][y] == '^':
+                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgStairsUp)
+                elif self.ListeLignes[x][y] == 'v':
+                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgStairsDown)
