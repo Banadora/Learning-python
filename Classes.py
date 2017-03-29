@@ -3,6 +3,7 @@
 # -*- coding: utf8 -*-
 
 import os
+import winsound
 from tkinter import *
 from tkinter.filedialog import *
 from PIL import Image, ImageTk
@@ -310,6 +311,8 @@ class MakeUI(Frame):
         if self.FinDeCarte == 0:
             self.MsgInfosCarteSup["text"] = InfoSup
         else:
+            winsound.PlaySound('Sons/Caisse enregistreuse.wav', winsound.SND_FILENAME)
+            winsound.PlaySound('Sons/Pieces.wav', winsound.SND_FILENAME)
             InfoSup = "\nBRAVO : pensez à dépenser vos $$$ !"
             self.MsgInfosCarteSup["text"] = InfoSup
 
