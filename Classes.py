@@ -113,8 +113,6 @@ class MakeUI(Frame):
 
         self.CanvasPersoSelect.create_image(20, 20, image=self.TkImgPerso)
 
-        self.BtnOuvrirCarte["state"] = NORMAL
-
         return self.TkImgPerso
 
 ###################################################################################################################
@@ -136,14 +134,12 @@ class MakeUI(Frame):
         self.Fichier.close()
 
         # Y = Ligne   X = Colonne
-        #if self.FileName[-5] == '1':
         if '1.0' in self.TempPathCarte:
             self.PosX = 2
             self.PosY = 1
             self.NbLignes = 6
             self.NbColonnes = 20
             self.FrameCarteGraph["text"] = " 1 : Jardinet  (Facile)"
-        #elif self.FileName[-5] == '2':
         elif '2.0' in self.TempPathCarte:
             self.PosX = 4
             self.PosY = 1
@@ -156,7 +152,7 @@ class MakeUI(Frame):
             self.NbLignes = 20
             self.NbColonnes = 20
             self.FrameCarteGraph["text"] = " 3 : Serpentin (Moyen)"
-        elif '4.1.1' in self.TempPathCarte:
+        elif '4.1' in self.TempPathCarte:
             self.PosX = 3
             self.PosY = 4
             self.NbLignes = 8
@@ -198,12 +194,6 @@ class MakeUI(Frame):
             NouvelleLigneDuHero = self.ListeLignes[self.PosY - 1]
             if NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '#':
                 InfoSup = "\n\nIl est impossible de traverser un mur !! \nBien essayé."
-            elif NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '$':
-                self.FinDeCarte = 1
-            elif NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '^':
-                self.ChangerNiveau(self.TempPathCarte)
-            elif NouvelleLigneDuHero[self.PosX - 1:self.PosX] == 'v':
-                self.ChangerNiveau(self.TempPathCarte)
             else:
                 HeroRemplace = LigneDuHero[self.PosX - 1:self.PosX].replace('~', ' ')
                 DebutNouvelleLigne = LigneDuHero[:self.PosX - 1]
@@ -221,17 +211,18 @@ class MakeUI(Frame):
 
                 self.PosY -= 1
 
+            if NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '$':
+                self.FinDeCarte = 1
+            elif NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '^':
+                self.ChangerNiveau(self.TempPathCarte)
+            elif NouvelleLigneDuHero[self.PosX - 1:self.PosX] == 'v':
+                self.ChangerNiveau(self.TempPathCarte)
+
 ######################################################
         elif TouchePressee == "Q":
             LigneDuHero = self.ListeLignes[self.PosY]
             if LigneDuHero[self.PosX - 2:self.PosX - 1] == '#':
                 InfoSup = "\n\nIl est impossible de traverser un mur !! \nBien essayé."
-            elif LigneDuHero[self.PosX - 2:self.PosX - 1] == '$':
-                self.FinDeCarte = 1
-            elif LigneDuHero[self.PosX - 2:self.PosX - 1] == '^':
-                self.ChangerNiveau(self.TempPathCarte)
-            elif LigneDuHero[self.PosX - 2:self.PosX - 1] == 'v':
-                self.ChangerNiveau(self.TempPathCarte)
             else:
                 DebutNouvelleLigne = LigneDuHero[0:self.PosX - 2]
                 BlancRemplace = LigneDuHero[self.PosX - 2:self.PosX - 1].replace(' ', '~')
@@ -243,18 +234,19 @@ class MakeUI(Frame):
 
                 self.PosX -= 1
 
+            if LigneDuHero[self.PosX - 2:self.PosX - 1] == '$':
+                self.FinDeCarte = 1
+            elif LigneDuHero[self.PosX - 2:self.PosX - 1] == '^':
+                self.ChangerNiveau(self.TempPathCarte)
+            elif LigneDuHero[self.PosX - 2:self.PosX - 1] == 'v':
+                self.ChangerNiveau(self.TempPathCarte)
+
 ######################################################
         elif TouchePressee == "S":
             LigneDuHero = self.ListeLignes[self.PosY]
             NouvelleLigneDuHero = self.ListeLignes[self.PosY + 1]
             if NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '#':
                 InfoSup = "\n\nIl est impossible de traverser un mur !! \nBien essayé."
-            elif NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '$':
-                self.FinDeCarte = 1
-            elif NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '^':
-                self.ChangerNiveau(self.TempPathCarte)
-            elif NouvelleLigneDuHero[self.PosX - 1:self.PosX] == 'v':
-                self.ChangerNiveau(self.TempPathCarte)
             else:
                 HeroRemplace = LigneDuHero[self.PosX - 1:self.PosX].replace('~', ' ')
                 DebutNouvelleLigne = LigneDuHero[:self.PosX - 1]
@@ -272,17 +264,18 @@ class MakeUI(Frame):
 
                 self.PosY += 1
 
+            if NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '$':
+                self.FinDeCarte = 1
+            elif NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '^':
+                self.ChangerNiveau(self.TempPathCarte)
+            elif NouvelleLigneDuHero[self.PosX - 1:self.PosX] == 'v':
+                self.ChangerNiveau(self.TempPathCarte)
+
 ######################################################
         elif TouchePressee == "D":
             LigneDuHero = self.ListeLignes[self.PosY]
             if LigneDuHero[self.PosX:self.PosX + 1] == "#":
                 InfoSup = "\n\nIl est impossible de traverser un mur !! \nBien essayé."
-            elif LigneDuHero[self.PosX:self.PosX + 1] == '$':
-                self.FinDeCarte = 1
-            elif LigneDuHero[self.PosX:self.PosX + 1] == '^':
-                self.ChangerNiveau(self.TempPathCarte)
-            elif LigneDuHero[self.PosX:self.PosX + 1] == 'v':
-                self.ChangerNiveau(self.TempPathCarte)
             else:
                 HeroRemplace = LigneDuHero[self.PosX - 1:self.PosX].replace('~', ' ')
                 BlancRemplace = LigneDuHero[self.PosX:self.PosX + 1].replace(' ', '~')
@@ -293,6 +286,13 @@ class MakeUI(Frame):
                 self.ListeLignes[self.PosY], LigneDuHero = LigneDuHero, self.ListeLignes[self.PosY]
 
                 self.PosX += 1
+
+            if LigneDuHero[self.PosX:self.PosX + 1] == '$':
+                self.FinDeCarte = 1
+            elif LigneDuHero[self.PosX:self.PosX + 1] == '^':
+                self.ChangerNiveau(self.TempPathCarte)
+            elif LigneDuHero[self.PosX:self.PosX + 1] == 'v':
+                self.ChangerNiveau(self.TempPathCarte)
 
 ######################################################
         self.AfficherCarte()
@@ -324,72 +324,32 @@ class MakeUI(Frame):
 ###################################################################################################################
     def FctMenus(self, Fenetre):
         # Menus
+        ListePersos = ["Alien", "Angel", "Baby", "Boxer", "Chef", "Clown", "Dad", "Devil", "Doctor", "Dragon", "Firefighter", "Ghost",
+            "Girl", "Kid", "King", "Knight", "Lawyer", "Leprechaun", "Man", "Mermaid", "Monster", "Ninja", "Nurse", "Pirate",
+            "Policeman", "Prince", "Princess", "Queen", "Robot", "Santa", "Snowman", "Superhero", "Teacher", "Troll", "Vampire",
+            "Werewolf", "Witch", "Zombie"]
+
         self.Menubar = Menu(Fenetre)
 
-        self.MenuPerso = Menu(self.Menubar, tearoff=0)
+        self.MenuPersos = Menu(self.Menubar, tearoff=0)
 
-        self.MenuPerso.add_command(label="Alien", command=lambda: self.ChoisirPerso("Alien"))
-        self.MenuPerso.add_command(label="Angel", command=lambda: self.ChoisirPerso("Angel"))
-        self.MenuPerso.add_command(label="Baby", command=lambda: self.ChoisirPerso("Baby"))
+        for elmt in ListePersos:
+            self.MenuPersos.add_command(label=elmt, command=lambda elmt=elmt: self.ChoisirPerso(elmt))
 
-        self.MenuPerso.add_command(label="Boxer", command=lambda: self.ChoisirPerso("Boxer"))
-        self.MenuPerso.add_command(label="Chef", command=lambda: self.ChoisirPerso("Chef"))
-        self.MenuPerso.add_command(label="Clown", command=lambda: self.ChoisirPerso("Clown"))
-
-        self.MenuPerso.add_command(label="Dad", command=lambda: self.ChoisirPerso("Dad"))
-        self.MenuPerso.add_command(label="Devil", command=lambda: self.ChoisirPerso("Devil"))
-        self.MenuPerso.add_command(label="Doctor", command=lambda: self.ChoisirPerso("Doctor"))
-
-        self.MenuPerso.add_command(label="Dragon", command=lambda: self.ChoisirPerso("Dragon"))
-        self.MenuPerso.add_command(label="Firefighter", command=lambda: self.ChoisirPerso("Firefighter"))
-        self.MenuPerso.add_command(label="Ghost", command=lambda: self.ChoisirPerso("Ghost"))
-
-        self.MenuPerso.add_command(label="Girl", command=lambda: self.ChoisirPerso("Girl"))
-        self.MenuPerso.add_command(label="Kid", command=lambda: self.ChoisirPerso("Kid"))
-        self.MenuPerso.add_command(label="King", command=lambda: self.ChoisirPerso("King"))
-
-        self.MenuPerso.add_command(label="Knight", command=lambda: self.ChoisirPerso("Knight"))
-        self.MenuPerso.add_command(label="Lawyer", command=lambda: self.ChoisirPerso("Lawyer"))
-        self.MenuPerso.add_command(label="Leprechaun", command=lambda: self.ChoisirPerso("Leprechaun"))
-
-        self.MenuPerso.add_command(label="Man", command=lambda: self.ChoisirPerso("Man"))
-        self.MenuPerso.add_command(label="Mermaid", command=lambda: self.ChoisirPerso("Mermaid"))
-        self.MenuPerso.add_command(label="Monster", command=lambda: self.ChoisirPerso("Monster"))
-
-        self.MenuPerso.add_command(label="Ninja", command=lambda: self.ChoisirPerso("Ninja"))
-        self.MenuPerso.add_command(label="Nurse", command=lambda: self.ChoisirPerso("Nurse"))
-        self.MenuPerso.add_command(label="Pirate", command=lambda: self.ChoisirPerso("Pirate"))
-
-        self.MenuPerso.add_command(label="Policeman", command=lambda: self.ChoisirPerso("Policeman"))
-        self.MenuPerso.add_command(label="Prince", command=lambda: self.ChoisirPerso("Prince"))
-        self.MenuPerso.add_command(label="Princess", command=lambda: self.ChoisirPerso("Princess"))
-
-        self.MenuPerso.add_command(label="Queen", command=lambda: self.ChoisirPerso("Queen"))
-        self.MenuPerso.add_command(label="Robot", command=lambda: self.ChoisirPerso("Robot"))
-        self.MenuPerso.add_command(label="Santa", command=lambda: self.ChoisirPerso("Santa"))
-
-        self.MenuPerso.add_command(label="Snowman", command=lambda: self.ChoisirPerso("Snowman"))
-        self.MenuPerso.add_command(label="Superhero", command=lambda: self.ChoisirPerso("Superhero"))
-        self.MenuPerso.add_command(label="Teacher", command=lambda: self.ChoisirPerso("Teacher"))
-
-        self.MenuPerso.add_command(label="Troll", command=lambda: self.ChoisirPerso("Troll"))
-        self.MenuPerso.add_command(label="Vampire", command=lambda: self.ChoisirPerso("Vampire"))
-        self.MenuPerso.add_command(label="Werewolf", command=lambda: self.ChoisirPerso("Werewolf"))
-
-        self.MenuPerso.add_command(label="Witch", command=lambda: self.ChoisirPerso("Witch"))
-        self.MenuPerso.add_command(label="Zombie", command=lambda: self.ChoisirPerso("Zombie"))
-
-        self.Menubar.add_cascade(label="Personnages", menu=self.MenuPerso)
+        self.Menubar.add_cascade(label="Personnages", menu=self.MenuPersos)
 
 ######################################################
-        self.MenuCarte = Menu(self.Menubar, tearoff=0)
+        ListeCartes = ["1.0 - Jardinet (Facile)",
+                       "2.0 - Petite caverne (Moyen)",
+                       "3.0 - Serpentin (Moyen)",
+                       "4.1 - Plus haut (Facile)"]
 
-        self.MenuCarte.add_command(label="1 : Jardinet (Facile)", command=lambda: self.OuvrirCarte("1.0 - Jardinet (Facile)"))
-        self.MenuCarte.add_command(label="2 : Petite caverne (Moyen)", command=lambda: self.OuvrirCarte("2.0 - Petite caverne (Moyen)"))
-        self.MenuCarte.add_command(label="3 : Serpentin (Moyen)", command=lambda: self.OuvrirCarte("3.0 - Serpentin (Moyen)"))
-        self.MenuCarte.add_command(label="4 : Plus haut (Facile)", command=lambda: self.OuvrirCarte("4.1.1 - Plus haut (Facile)"))
+        self.MenuCartes = Menu(self.Menubar, tearoff=0)
 
-        self.Menubar.add_cascade(label="Cartes", menu=self.MenuCarte)
+        for elmt in ListeCartes:
+            self.MenuCartes.add_command(label=elmt, command=lambda elmt=elmt: self.OuvrirCarte(elmt))
+
+        self.Menubar.add_cascade(label="Cartes", menu=self.MenuCartes)
 
 ######################################################
         Fenetre.config(menu=self.Menubar)
@@ -398,21 +358,25 @@ class MakeUI(Frame):
 ###################################################################################################################
     def ChangerNiveau(self, Carte):
         if '4.1' in Carte:
-            self.PosX = 19
-            self.PosY = 5
-            self.NbLignes = 8
-            self.NbColonnes = 20
-            self.FrameCarteGraph["text"] = " 4.2 - Plus haut (Facile)"
-            NouvelleCarte = "4.2 - Plus haut (Facile)"
+            if ((self.PosX == 19) and (self.PosY == 6)):
+                self.FrameCarteGraph["text"] = " 4.2 - Plus haut (Facile)"
+                NouvelleCarte = "4.2 - Plus haut (Facile)"
+                self.OuvrirCarte(NouvelleCarte)
+                self.PosX = 19
+                self.PosY = 5
+                self.NbLignes = 8
+                self.NbColonnes = 20
         if '4.2' in Carte:
-            self.PosX = 19
-            self.PosY = 5
-            self.NbLignes = 8
-            self.NbColonnes = 20
-            self.FrameCarteGraph["text"] = " 4.1 - Plus haut (Facile)"
-            NouvelleCarte = "4.1.2 - Plus haut (Facile)"
-
-        self.OuvrirCarte(NouvelleCarte)
+            if ((self.PosX == 19) and (self.PosY == 6)):
+                self.FrameCarteGraph["text"] = " 4.1 - Plus haut (Facile)"
+                NouvelleCarte = "4.1 - Plus haut (Facile)"
+                self.OuvrirCarte(NouvelleCarte)
+                self.PosX = 19
+                self.PosY = 5
+                self.NbLignes = 8
+                self.NbColonnes = 20
+                self.ListeLignes[4] = "#  #       ## # #  #"
+                self.ListeLignes[5] = "#### ######    # #~#"
 
 ###################################################################################################################
 ###################################################################################################################
