@@ -4,7 +4,7 @@
 
 import os
 from tkinter import *
-from Classes import *
+from Interface import *
 
 
 Fenetre = Tk()
