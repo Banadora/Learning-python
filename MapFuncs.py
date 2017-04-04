@@ -1,46 +1,47 @@
+################### Labyrinthe - Maps functions ###################
 
 # -*- coding: utf-8 -*-
 
 
 ###################################################################################################################
 ###################################################################################################################
-def AfficherCarte(self):
+def ShowMap(self):
         # Suppression de l'ancienne carte si necessaire
         self.CanvasCarte.delete("all")
 
         # Positionnement des blocs
         for x in range(self.NbLignes):
             for y in range(self.NbColonnes):
-                if self.ListeLignes[x][y] == '#':
+                if self.LinesList[x][y] == '#':
                     self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgMur)
-                elif self.ListeLignes[x][y] == '$':
+                elif self.LinesList[x][y] == '$':
                     self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgDollar)
-                elif self.ListeLignes[x][y] == '~':
+                elif self.LinesList[x][y] == '~':
                     self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgPerso)
-                elif self.ListeLignes[x][y] == ' ':
+                elif self.LinesList[x][y] == ' ':
                     self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgBlank)
-                elif self.ListeLignes[x][y] == '^':
+                elif self.LinesList[x][y] == '^':
                     self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgStairsUp)
-                elif self.ListeLignes[x][y] == 'v':
+                elif self.LinesList[x][y] == 'v':
                     self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgStairsDown)
 
 
 ###################################################################################################################
 ###################################################################################################################
-def OuvrirCarte(self, Carte):
+def OpenMap(self, Carte):
     # Ouverture de la carte au démarrage
-    self.ListeLignes = []
-    self.CarteActuelle = {}
+    self.LinesList = []
+    self.ActualMap = {}
     self.FileName = ""
     self.MsgInfosCarte["text"] = ""
-    self.FinDeCarte = 0
+    self.EndOfMap = 0
     self.PlayFinalSound = 1
 
     self.TempPathCarte = 'Cartes/' + Carte + '.txt'
     #self.FileName = askopenfilename(title="Ouvrir une carte", filetypes=[('txt files', '.txt'), ('all files', '.*')])
 
     self.Fichier = open(self.TempPathCarte, "r")
-    self.CarteActuelle = self.Fichier.read()
+    self.ActualMap = self.Fichier.read()
     self.Fichier.close()
 
     # Y = Ligne   X = Colonne
@@ -82,43 +83,43 @@ def OuvrirCarte(self, Carte):
     j = 0
     k = self.NbColonnes
     while i <= self.NbLignes - 1:
-        self.ListeLignes.append(self.CarteActuelle[j:k])
+        self.LinesList.append(self.ActualMap[j:k])
         i += 1
         j = k + 1
         k = j + self.NbColonnes
 
     self.MsgInfosCarte["text"] = ""
-    self.MsgInfosCarte["text"] = self.InfosTouches + "\n Position >>   Ligne : "\
+    self.MsgInfosCarte["text"] = self.KeysInfos + "\n Position >>   Ligne : "\
          + str(self.PosY + 1) + "   Colonne : " + str(self.PosX) + \
     "\n\n\n---------------------------------------------------------\n\n"
 
-    AfficherCarte(self)
+    ShowMap(self)
 
 
 ###################################################################################################################
 ###################################################################################################################
-def ChangerNiveau(self, Carte):
+def ChangeLevel(self, Carte):
     if '4.1' in Carte:
         if ((self.PosX == 19) and (self.PosY == 6)):                        # 4.1 -> 4.2 (1)
             self.FrameCarteGraph["text"] = " 4.2 - Plus haut (Facile)"
             NouvelleCarte = "4.2 - Plus haut (Facile)"
             self.NbLignes = 8
             self.NbColonnes = 20
-            OuvrirCarte(self, NouvelleCarte)
+            OpenMap(self, NouvelleCarte)
             self.PosX = 19
             self.PosY = 5
-            self.ListeLignes[5] = "# # #   #       ##~#"
+            self.LinesList[5] = "# # #   #       ##~#"
     if '4.2' in Carte:
         if ((self.PosX == 19) and (self.PosY == 6)):                        # 4.2 -> 4.1 (1)
             self.FrameCarteGraph["text"] = " 4.1 - Plus haut (Facile)"
             NouvelleCarte = "4.1 - Plus haut (Facile)"
             self.NbLignes = 8
             self.NbColonnes = 20
-            OuvrirCarte(self, NouvelleCarte)
+            OpenMap(self, NouvelleCarte)
             self.PosX = 19
             self.PosY = 5
-            self.ListeLignes[4] = "#  #       ## # #  #"
-            self.ListeLignes[5] = "#### ######    # #~#"
+            self.LinesList[4] = "#  #       ## # #  #"
+            self.LinesList[5] = "#### ######    # #~#"
 
 ######################################################
     if '5.1' in Carte:
@@ -127,56 +128,56 @@ def ChangerNiveau(self, Carte):
             NouvelleCarte = "5.2 - Maison (Moyen)"
             self.NbLignes = 8
             self.NbColonnes = 20
-            OuvrirCarte(self, NouvelleCarte)
+            OpenMap(self, NouvelleCarte)
             self.PosX = 3
             self.PosY = 6
-            self.ListeLignes[6] = "#v~    #     #      "
+            self.LinesList[6] = "#v~    #     #      "
         if ((self.PosX == 14) and (self.PosY == 10)):                      # 5.1 -> 5.2 (2)
             self.FrameCarteGraph["text"] = " 5.2 - Maison (Moyen)"
             NouvelleCarte = "5.2 - Maison (Moyen)"
             self.NbLignes = 8
             self.NbColonnes = 20
-            OuvrirCarte(self, NouvelleCarte)
+            OpenMap(self, NouvelleCarte)
             self.PosX = 2
             self.PosY = 1
-            self.ListeLignes[1] = "#~v#    #v#  #      "
+            self.LinesList[1] = "#~v#    #v#  #      "
         if ((self.PosX == 3) and (self.PosY == 7)):                      # 5.1 -> 5.2 (3)
             self.FrameCarteGraph["text"] = " 5.2 - Maison (Moyen)"
             NouvelleCarte = "5.2 - Maison (Moyen)"
             self.NbLignes = 8
             self.NbColonnes = 20
-            OuvrirCarte(self, NouvelleCarte)
+            OpenMap(self, NouvelleCarte)
             self.PosX = 10
             self.PosY = 2
-            self.ListeLignes[2] = "# #  #  #~ # #      "
+            self.LinesList[2] = "# #  #  #~ # #      "
     if '5.2' in Carte:
         if ((self.PosX == 2) and (self.PosY == 6)):                        # 5.2 -> 5.1 (1)
             self.FrameCarteGraph["text"] = " 5.1 - Maison (Moyen)"
             NouvelleCarte = "5.1 - Maison (Moyen)"
             self.NbLignes = 8
             self.NbColonnes = 20
-            OuvrirCarte(self, NouvelleCarte)
+            OpenMap(self, NouvelleCarte)
             self.PosX = 3
             self.PosY = 5
-            self.ListeLignes[9] = "#$# ##   #   #    ##"
-            self.ListeLignes[5] = "#^~### #### #  #   #"
+            self.LinesList[9] = "#$# ##   #   #    ##"
+            self.LinesList[5] = "#^~### #### #  #   #"
         if ((self.PosX == 3) and (self.PosY == 1)):                        # 5.2 -> 5.1 (2)
             self.FrameCarteGraph["text"] = " 5.1 - Maison (Moyen)"
             NouvelleCarte = "5.1 - Maison (Moyen)"
             self.NbLignes = 8
             self.NbColonnes = 20
-            OuvrirCarte(self, NouvelleCarte)
+            OpenMap(self, NouvelleCarte)
             self.PosX = 15
             self.PosY = 10
-            self.ListeLignes[9] = "#$# ##   #   #    ##"
-            self.ListeLignes[10] = "##     ##  ##^~## ##"
+            self.LinesList[9] = "#$# ##   #   #    ##"
+            self.LinesList[10] = "##     ##  ##^~## ##"
         if ((self.PosX == 10) and (self.PosY == 1)):                        # 5.2 -> 5.1 (3)
             self.FrameCarteGraph["text"] = " 5.1 - Maison (Moyen)"
             NouvelleCarte = "5.1 - Maison (Moyen)"
             self.NbLignes = 8
             self.NbColonnes = 20
-            OuvrirCarte(self, NouvelleCarte)
+            OpenMap(self, NouvelleCarte)
             self.PosX = 2
             self.PosY = 7
-            self.ListeLignes[9] = "#$# ##   #   #    ##"
-            self.ListeLignes[7] = "#~^#########  ##  ##"
+            self.LinesList[9] = "#$# ##   #   #    ##"
+            self.LinesList[7] = "#~^#########  ##  ##"

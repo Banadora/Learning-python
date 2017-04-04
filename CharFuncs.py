@@ -1,3 +1,4 @@
+################### Labyrinthe - Character functions ###################
 
 # -*- coding: utf-8 -*-
 
@@ -6,9 +7,9 @@ from PIL import Image, ImageTk
 
 ###################################################################################################################
 ###################################################################################################################
-def ChoisirPerso(self, Perso):
+def PickChar(self, Char):
     # Fonction d'ouverture du fichier personnage
-    self.TempPathPerso = 'Images/Characters/' + Perso + '.ico'
+    self.TempPathPerso = 'Images/Characters/' + Char + '.ico'
     self.ImgPerso = Image.open(self.TempPathPerso)
     self.TkImgPerso = ImageTk.PhotoImage(self.ImgPerso)
     self.ImgPerso.close()

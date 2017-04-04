@@ -1,4 +1,4 @@
-################### Tests Tkinter - Classes ###################
+################### Labyrinthe - Interface ###################
 
 # -*- coding: utf8 -*-
 
@@ -12,28 +12,28 @@ from CharFuncs import *
 
 class MakeUI(Frame):
 
-    """ Classe de création d'interface utilisateur """
+    """ Creates the user interface """
 
     def __init__(self, Fenetre, **kwargs):
 
-        # Héritage et données
+        # Inherit datas
         Frame.__init__(self, Fenetre, width=1500, height=700, **kwargs)
 
         self.pack(fill=BOTH)
-        self.InfosTouches = "\nVous êtes un héros qui cherche à s'échapper \ndu labyrinthe pour gagner du $$$\n\n" + \
+        self.KeysInfos = "\nVous êtes un héros qui cherche à s'échapper \ndu labyrinthe pour gagner du $$$\n\n" + \
          " Appuyez Z pour aller vers le haut\n" + \
          "   Appuyez Q pour aller vers la gauche\n" \
          "   Appuyez D pour aller vers la droite\n" \
          "Appuyez S pour aller vers le bas\n\n" + \
         "---------------------------------------------------------\n\n"
         self.FileName = ""
-        self.CarteActuelle = {}
-        self.ListeLignes = []
-        self.FinDeCarte = 0
+        self.ActualMap = {}
+        self.LinesList = []
+        self.EndOfMap = 0
         self.PlayFinalSound = 1
         self.TempPath = ""
 
-        # Importation des images
+        # Images imports
         self.ImgBlank = Image.open('Images/Blank.ico')
         self.TkImgBlank = ImageTk.PhotoImage(self.ImgBlank)
         self.ImgBlank.close()
@@ -54,19 +54,15 @@ class MakeUI(Frame):
         self.TkImgStairsDown = ImageTk.PhotoImage(self.ImgStairsDown)
         self.ImgStairsDown.close()
 
-        # Definition des touches de direction
+        # Move keys
         self.bind_all("z", lambda e: Move(self, "Z"))
         self.bind_all("q", lambda e: Move(self, "Q"))
         self.bind_all("s", lambda e: Move(self, "S"))
         self.bind_all("d", lambda e: Move(self, "D"))
 
-        # Cadre des informations
+        # Information frame
         self.FrameInfos = LabelFrame(self, text="Choix des paramètres", padx=2, pady=2)
         self.FrameInfos.pack(fill="both", expand="yes", padx=5, pady=5)
-
-        # Cadre général du jeu
-        #self.FrameGeneral = LabelFrame(self, text="Labyrinthe", padx=2, pady=2)
-        #self.FrameGeneral.pack(fill="both", expand="yes", padx=5, pady=5)
 
         # Cadre d'affichage de l'aancienne carte et des infos de jeu
         self.FrameCarte = LabelFrame(self, text="Infos", padx=2, pady=2)
@@ -83,10 +79,6 @@ class MakeUI(Frame):
         # Affichage des informations
         self.MsgInfos = Label(self.FrameInfos, text=" ^ Menus de sélection du personnage et de la carte \t\t\t\t     Personnage : ")
         self.MsgInfos.pack(side=LEFT, padx=5, pady=5)
-
-        # Bouton d'ouverture de carte
-        #self.BtnOuvrirCarte = Button(self.FrameInfos, text="Carte", bg="orange", state=DISABLED, width=10, command=self.OuvrirCarte)
-        #self.BtnOuvrirCarte.pack(side="right", padx=5, pady=5)
 
         # Affichage du personnage selectionné
         self.CanvasPersoSelect = Canvas(self.FrameInfos, width=500, height=40)
@@ -117,7 +109,7 @@ class MakeUI(Frame):
         self.MenuPersos = Menu(self.Menubar, tearoff=0)
 
         for elmt in ListePersos:
-            self.MenuPersos.add_command(label=elmt, command=lambda elmt=elmt: ChoisirPerso(self, elmt))
+            self.MenuPersos.add_command(label=elmt, command=lambda elmt=elmt: PickChar(self, elmt))
 
         self.Menubar.add_cascade(label="Personnages", menu=self.MenuPersos)
 
@@ -131,7 +123,7 @@ class MakeUI(Frame):
         self.MenuCartes = Menu(self.Menubar, tearoff=0)
 
         for elmt in ListeCartes:
-            self.MenuCartes.add_command(label=elmt, command=lambda elmt=elmt: OuvrirCarte(self, elmt))
+            self.MenuCartes.add_command(label=elmt, command=lambda elmt=elmt: OpenMap(self, elmt))
 
         self.Menubar.add_cascade(label="Cartes", menu=self.MenuCartes)
 
