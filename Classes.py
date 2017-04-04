@@ -208,7 +208,6 @@ class MakeUI(Frame):
 
                 NouvelleLigneDuHero = DebutNouvelleLigne + BlancRemplace + FinNouvelleLigne
                 self.ListeLignes[self.PosY - 1], NouvelleLigneDuHero = NouvelleLigneDuHero, self.ListeLignes[self.PosY - 1]
-
                 self.PosY -= 1
 
             if NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '$':
@@ -231,14 +230,13 @@ class MakeUI(Frame):
 
                 LigneDuHero = DebutNouvelleLigne + BlancRemplace + HeroRemplace + FinNouvelleLigne
                 self.ListeLignes[self.PosY], LigneDuHero = LigneDuHero, self.ListeLignes[self.PosY]
-
                 self.PosX -= 1
 
-            if LigneDuHero[self.PosX - 2:self.PosX - 1] == '$':
+            if LigneDuHero[self.PosX - 1:self.PosX] == '$':
                 self.FinDeCarte = 1
-            elif LigneDuHero[self.PosX - 2:self.PosX - 1] == '^':
+            elif LigneDuHero[self.PosX - 1:self.PosX] == '^':
                 self.ChangerNiveau(self.TempPathCarte)
-            elif LigneDuHero[self.PosX - 2:self.PosX - 1] == 'v':
+            elif LigneDuHero[self.PosX - 1:self.PosX] == 'v':
                 self.ChangerNiveau(self.TempPathCarte)
 
 ######################################################
@@ -261,7 +259,6 @@ class MakeUI(Frame):
 
                 NouvelleLigneDuHero = DebutNouvelleLigne + BlancRemplace + FinNouvelleLigne
                 self.ListeLignes[self.PosY + 1], NouvelleLigneDuHero = NouvelleLigneDuHero, self.ListeLignes[self.PosY + 1]
-
                 self.PosY += 1
 
             if NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '$':
@@ -284,14 +281,13 @@ class MakeUI(Frame):
 
                 LigneDuHero = DebutNouvelleLigne + HeroRemplace + BlancRemplace + FinNouvelleLigne
                 self.ListeLignes[self.PosY], LigneDuHero = LigneDuHero, self.ListeLignes[self.PosY]
-
                 self.PosX += 1
 
-            if LigneDuHero[self.PosX:self.PosX + 1] == '$':
+            if LigneDuHero[self.PosX - 1:self.PosX] == '$':
                 self.FinDeCarte = 1
-            elif LigneDuHero[self.PosX:self.PosX + 1] == '^':
+            elif LigneDuHero[self.PosX - 1:self.PosX] == '^':
                 self.ChangerNiveau(self.TempPathCarte)
-            elif LigneDuHero[self.PosX:self.PosX + 1] == 'v':
+            elif LigneDuHero[self.PosX - 1:self.PosX] == 'v':
                 self.ChangerNiveau(self.TempPathCarte)
 
 ######################################################
