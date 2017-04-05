@@ -12,18 +12,21 @@ def ShowMap(self):
         # Positionnement des blocs
         for x in range(self.NbLignes):
             for y in range(self.NbColonnes):
-                if self.LinesList[x][y] == '#':
-                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgMur)
-                elif self.LinesList[x][y] == '$':
-                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgDollar)
-                elif self.LinesList[x][y] == '~':
-                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgPerso)
-                elif self.LinesList[x][y] == ' ':
-                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgBlank)
-                elif self.LinesList[x][y] == '^':
-                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgStairsUp)
-                elif self.LinesList[x][y] == 'v':
-                    self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgStairsDown)
+                if (x > (self.PosY + 3)) or (x < (self.PosY - 3)) or (y > (self.PosX + 2)) or (y < (self.PosX - 4)):
+                        self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgBlank)
+                else:
+                    if self.LinesList[x][y] == '#':
+                        self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgMur)
+                    elif self.LinesList[x][y] == '$':
+                        self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgDollar)
+                    elif self.LinesList[x][y] == '~':
+                        self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgPerso)
+                    elif self.LinesList[x][y] == ' ':
+                        self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgBlank)
+                    elif self.LinesList[x][y] == '^':
+                        self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgStairsUp)
+                    elif self.LinesList[x][y] == 'v':
+                        self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgStairsDown)
 
 
 ###################################################################################################################

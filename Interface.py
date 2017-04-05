@@ -54,6 +54,10 @@ class MakeUI(Frame):
         self.TkImgStairsDown = ImageTk.PhotoImage(self.ImgStairsDown)
         self.ImgStairsDown.close()
 
+        self.ImgBlur = Image.open('Images/Blur.ico')
+        self.TkImgBlur = ImageTk.PhotoImage(self.ImgBlur)
+        self.ImgBlur.close()
+
         # Move keys
         self.bind_all("z", lambda e: Move(self, "Z"))
         self.bind_all("q", lambda e: Move(self, "Q"))
@@ -79,6 +83,8 @@ class MakeUI(Frame):
         # Affichage des informations
         self.MsgInfos = Label(self.FrameInfos, text=" ^ Menus de sélection du personnage et de la carte \t\t\t\t     Personnage : ")
         self.MsgInfos.pack(side=LEFT, padx=5, pady=5)
+
+        # Brouillard
 
         # Affichage du personnage selectionné
         self.CanvasPersoSelect = Canvas(self.FrameInfos, width=500, height=40)
