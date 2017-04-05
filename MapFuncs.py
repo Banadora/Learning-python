@@ -12,7 +12,8 @@ def ShowMap(self):
         # Positionnement des blocs
         for x in range(self.NbLignes):
             for y in range(self.NbColonnes):
-                if (x > (self.PosY + 3)) or (x < (self.PosY - 3)) or (y > (self.PosX + 2)) or (y < (self.PosX - 4)):
+                if (x > (self.PosY + self.BlurLevel)) or (x < (self.PosY - self.BlurLevel)) \
+                or (y > (self.PosX + (self.BlurLevel - 1))) or (y < (self.PosX - (self.BlurLevel + 1))):
                         self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgBlank)
                 else:
                     if self.LinesList[x][y] == '#':

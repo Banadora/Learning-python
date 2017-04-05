@@ -32,6 +32,7 @@ class MakeUI(Frame):
         self.EndOfMap = 0
         self.PlayFinalSound = 1
         self.TempPath = ""
+        self.Difficulty = 2
 
         # Images imports
         self.ImgBlank = Image.open('Images/Blank.ico')
@@ -81,14 +82,22 @@ class MakeUI(Frame):
         self.FrameCtrl.pack(fill="both", expand="yes", padx=5, pady=5)
 
         # Affichage des informations
-        self.MsgInfos = Label(self.FrameInfos, text=" ^ Menus de sélection du personnage et de la carte \t\t\t\t     Personnage : ")
+        self.MsgInfos = Label(self.FrameInfos, text="Personnage : ")
         self.MsgInfos.pack(side=LEFT, padx=5, pady=5)
 
-        # Brouillard
-
         # Affichage du personnage selectionné
-        self.CanvasPersoSelect = Canvas(self.FrameInfos, width=500, height=40)
-        self.CanvasPersoSelect.pack(side=RIGHT, padx=5, pady=5)
+        self.CanvasPersoSelect = Canvas(self.FrameInfos, width=100, height=40)
+        self.CanvasPersoSelect.pack(side=LEFT, padx=5, pady=5)
+
+        # Difficulté
+        self.MsgDifficultyBefore = Label(self.FrameInfos, text="Difficulté :")
+        self.MsgDifficultyBefore.pack(side=LEFT, padx=2, pady=2)
+        self.DifficultyScale = Scale(self.FrameInfos, from_=1, to=3, showvalue=0, orient=HORIZONTAL, length=75, sliderlength=25,
+             variable=self.Difficulty, command=self.ShowDifficultyScale)
+        self.DifficultyScale.set(2)
+        self.DifficultyScale.pack(side=LEFT, padx=2, pady=2)
+        self.MsgDifficulty = Label(self.FrameInfos, text=" ")
+        self.MsgDifficulty.pack(side=LEFT, padx=2, pady=2)
 
         self.MsgInfosCarte = Label(self.FrameCarte, text="", width=45)
         self.MsgInfosCarte.pack(padx=2, pady=2)
@@ -138,3 +147,17 @@ class MakeUI(Frame):
 
 ###################################################################################################################
 ###################################################################################################################
+
+    def ShowDifficultyScale(self, val):
+        value = int(float(val))
+        if value == 1:                 # Easy
+            self.BlurLevel = 6
+            self.MsgDifficulty["text"] = "Facile"
+        elif value == 2:               # Medium
+            self.BlurLevel = 4
+            self.MsgDifficulty["text"] = "Medium"
+        elif value == 3:               # Hard
+            self.BlurLevel = 2
+            self.MsgDifficulty["text"] = "Bonhomme"
+
+        ShowMap(self)
