@@ -138,7 +138,7 @@ class MakeUI(Frame):
         self.MenuCartes = Menu(self.Menubar, tearoff=0)
 
         for elmt in ListeCartes:
-            self.MenuCartes.add_command(label=elmt, command=lambda elmt=elmt: OpenMap(self, elmt))
+            self.MenuCartes.add_command(label=elmt, command=lambda elmt=elmt: OpenMap(self, elmt, 1))
 
         self.Menubar.add_cascade(label="Cartes", menu=self.MenuCartes)
 
@@ -152,12 +152,15 @@ class MakeUI(Frame):
         value = int(float(val))
         if value == 1:                 # Easy
             self.BlurLevel = 6
+            self.Lives = 6
             self.MsgDifficulty["text"] = "Facile"
         elif value == 2:               # Medium
             self.BlurLevel = 4
+            self.Lives = 4
             self.MsgDifficulty["text"] = "Medium"
         elif value == 3:               # Hard
             self.BlurLevel = 2
+            self.Lives = 2
             self.MsgDifficulty["text"] = "Bonhomme"
 
         ShowMap(self)

@@ -32,7 +32,7 @@ def ShowMap(self):
 
 ###################################################################################################################
 ###################################################################################################################
-def OpenMap(self, Carte):
+def OpenMap(self, Carte, StartingMap):
     # Ouverture de la carte au démarrage
     self.LinesList = []
     self.ActualMap = {}
@@ -40,6 +40,9 @@ def OpenMap(self, Carte):
     self.MsgInfosCarte["text"] = ""
     self.EndOfMap = 0
     self.PlayFinalSound = 1
+
+    if StartingMap == 1:
+        self.DifficultyScale.config(state='normal')
 
     self.TempPathCarte = 'Cartes/' + Carte + '.txt'
     #self.FileName = askopenfilename(title="Ouvrir une carte", filetypes=[('txt files', '.txt'), ('all files', '.*')])
@@ -95,7 +98,8 @@ def OpenMap(self, Carte):
     self.MsgInfosCarte["text"] = ""
     self.MsgInfosCarte["text"] = self.KeysInfos + "\n Position >>   Ligne : "\
          + str(self.PosY + 1) + "   Colonne : " + str(self.PosX) + \
-    "\n\n\n---------------------------------------------------------\n\n"
+         "\n\n\nVies restantes : {0}".format(self.Lives) + \
+        "\n\n\n---------------------------------------------------------\n\n"
 
     ShowMap(self)
 
@@ -109,7 +113,7 @@ def ChangeLevel(self, Carte):
             NouvelleCarte = "4.2 - Plus haut (Facile)"
             self.NbLignes = 8
             self.NbColonnes = 20
-            OpenMap(self, NouvelleCarte)
+            OpenMap(self, NouvelleCarte, 0)
             self.PosX = 19
             self.PosY = 5
             self.LinesList[5] = "# # #   #       ##~#"
@@ -119,7 +123,7 @@ def ChangeLevel(self, Carte):
             NouvelleCarte = "4.1 - Plus haut (Facile)"
             self.NbLignes = 8
             self.NbColonnes = 20
-            OpenMap(self, NouvelleCarte)
+            OpenMap(self, NouvelleCarte, 0)
             self.PosX = 19
             self.PosY = 5
             self.LinesList[4] = "#  #       ## # #  #"
@@ -132,7 +136,7 @@ def ChangeLevel(self, Carte):
             NouvelleCarte = "5.2 - Maison (Moyen)"
             self.NbLignes = 8
             self.NbColonnes = 20
-            OpenMap(self, NouvelleCarte)
+            OpenMap(self, NouvelleCarte, 0)
             self.PosX = 3
             self.PosY = 6
             self.LinesList[6] = "#v~    #     #      "
@@ -141,7 +145,7 @@ def ChangeLevel(self, Carte):
             NouvelleCarte = "5.2 - Maison (Moyen)"
             self.NbLignes = 8
             self.NbColonnes = 20
-            OpenMap(self, NouvelleCarte)
+            OpenMap(self, NouvelleCarte, 0)
             self.PosX = 2
             self.PosY = 1
             self.LinesList[1] = "#~v#    #v#  #      "
@@ -150,7 +154,7 @@ def ChangeLevel(self, Carte):
             NouvelleCarte = "5.2 - Maison (Moyen)"
             self.NbLignes = 8
             self.NbColonnes = 20
-            OpenMap(self, NouvelleCarte)
+            OpenMap(self, NouvelleCarte, 0)
             self.PosX = 10
             self.PosY = 2
             self.LinesList[2] = "# #  #  #~ # #      "
@@ -160,7 +164,7 @@ def ChangeLevel(self, Carte):
             NouvelleCarte = "5.1 - Maison (Moyen)"
             self.NbLignes = 8
             self.NbColonnes = 20
-            OpenMap(self, NouvelleCarte)
+            OpenMap(self, NouvelleCarte, 0)
             self.PosX = 3
             self.PosY = 5
             self.LinesList[9] = "#$# ##   #   #    ##"
@@ -170,7 +174,7 @@ def ChangeLevel(self, Carte):
             NouvelleCarte = "5.1 - Maison (Moyen)"
             self.NbLignes = 8
             self.NbColonnes = 20
-            OpenMap(self, NouvelleCarte)
+            OpenMap(self, NouvelleCarte, 0)
             self.PosX = 15
             self.PosY = 10
             self.LinesList[9] = "#$# ##   #   #    ##"
@@ -180,7 +184,7 @@ def ChangeLevel(self, Carte):
             NouvelleCarte = "5.1 - Maison (Moyen)"
             self.NbLignes = 8
             self.NbColonnes = 20
-            OpenMap(self, NouvelleCarte)
+            OpenMap(self, NouvelleCarte, 0)
             self.PosX = 2
             self.PosY = 7
             self.LinesList[9] = "#$# ##   #   #    ##"

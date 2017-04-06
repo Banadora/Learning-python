@@ -15,6 +15,7 @@ def Move(self, Touche):
         TouchePressee = Touche
 
     InfoSup = ""
+    self.DifficultyScale.config(state='disabled')
 
 ######################################################
     if TouchePressee == "Z":
@@ -132,6 +133,7 @@ def Move(self, Touche):
 
     self.MsgInfosCarte["text"] = self.KeysInfos + "\n Position >>   Ligne : " + str(self.PosY + 1) + \
         "   Colonne : " + str(self.PosX) + \
+    "\n\n\nVies restantes : {0}".format(self.Lives) + \
     "\n\n\n---------------------------------------------------------\n\n"
 
     if self.EndOfMap == 0:
