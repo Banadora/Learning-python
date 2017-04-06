@@ -34,30 +34,7 @@ class MakeUI(Frame):
         self.TempPath = ""
         self.Difficulty = 2
 
-        # Images imports
-        self.ImgBlank = Image.open('Images/Blank.ico')
-        self.TkImgBlank = ImageTk.PhotoImage(self.ImgBlank)
-        self.ImgBlank.close()
-
-        self.ImgMur = Image.open('Images/Wall.ico')
-        self.TkImgMur = ImageTk.PhotoImage(self.ImgMur)
-        self.ImgMur.close()
-
-        self.ImgDollar = Image.open('Images/Dollar.ico')
-        self.TkImgDollar = ImageTk.PhotoImage(self.ImgDollar)
-        self.ImgDollar.close()
-
-        self.ImgStairsUp = Image.open('Images/StairsUp.ico')
-        self.TkImgStairsUp = ImageTk.PhotoImage(self.ImgStairsUp)
-        self.ImgStairsUp.close()
-
-        self.ImgStairsDown = Image.open('Images/StairsDown.ico')
-        self.TkImgStairsDown = ImageTk.PhotoImage(self.ImgStairsDown)
-        self.ImgStairsDown.close()
-
-        self.ImgBlur = Image.open('Images/Blur.ico')
-        self.TkImgBlur = ImageTk.PhotoImage(self.ImgBlur)
-        self.ImgBlur.close()
+        self.ImagesImport()
 
         # Move keys
         self.bind_all("z", lambda e: Move(self, "Z"))
@@ -167,3 +144,35 @@ class MakeUI(Frame):
             self.MsgDifficulty["text"] = "Bonhomme"
 
         ShowMap(self)
+
+###################################################################################################################
+###################################################################################################################
+    def ImagesImport(self):
+        # Images imports
+        self.ImgBlank = Image.open('Images/Blank.ico')
+        self.TkImgBlank = ImageTk.PhotoImage(self.ImgBlank)
+        self.ImgBlank.close()
+
+        self.ImgMur = Image.open('Images/Wall.ico')
+        self.TkImgMur = ImageTk.PhotoImage(self.ImgMur)
+        self.ImgMur.close()
+
+        self.ImgDollar = Image.open('Images/Dollar.ico')
+        self.TkImgDollar = ImageTk.PhotoImage(self.ImgDollar)
+        self.ImgDollar.close()
+
+        self.ImgStairsUp = Image.open('Images/StairsUp.ico')
+        self.TkImgStairsUp = ImageTk.PhotoImage(self.ImgStairsUp)
+        self.ImgStairsUp.close()
+
+        self.ImgStairsDown = Image.open('Images/StairsDown.ico')
+        self.TkImgStairsDown = ImageTk.PhotoImage(self.ImgStairsDown)
+        self.ImgStairsDown.close()
+
+        self.ImgBlur = Image.open('Images/Blur.ico')
+        self.TkImgBlur = ImageTk.PhotoImage(self.ImgBlur)
+        self.ImgBlur.close()
+
+        self.ImgSnake = Image.open('Images/Snake.ico')
+        self.TkImgSnake = ImageTk.PhotoImage(self.ImgSnake)
+        self.ImgSnake.close()

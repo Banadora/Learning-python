@@ -22,12 +22,14 @@ def ShowMap(self):
                         self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgDollar)
                     elif self.LinesList[x][y] == '~':
                         self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgPerso)
-                    elif self.LinesList[x][y] == ' ':
+                    elif ((self.LinesList[x][y] == ' ') or (self.LinesList[x][y] == 's')):
                         self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgBlank)
                     elif self.LinesList[x][y] == '^':
                         self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgStairsUp)
                     elif self.LinesList[x][y] == 'v':
                         self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgStairsDown)
+                    elif self.LinesList[x][y] == '§':
+                        self.CanvasCarte.create_image((32 + (y * 32)), (32 + (x * 32)), image=self.TkImgSnake)
 
 
 ###################################################################################################################
@@ -81,6 +83,11 @@ def OpenMap(self, Carte, StartingMap):
         self.FrameCarteGraph["text"] = "5.1 - Maison (Moyen)"
 
 ######################################################
+    if StartingMap == 1:
+        self.DifficultyScale.config(state='normal')
+        self.Lives = self.LivesAtStart
+        self.LoadedMap = self.FrameCarteGraph["text"]
+
     self.MsgInfosCarte["font"] = ('Lucida Console', 8)
 
     i = 0
@@ -97,10 +104,6 @@ def OpenMap(self, Carte, StartingMap):
          + str(self.PosY + 1) + "   Colonne : " + str(self.PosX) + \
          "\n\n\nVies restantes : {0}".format(self.Lives) + \
         "\n\n\n---------------------------------------------------------\n\n"
-
-    if StartingMap == 1:
-        self.DifficultyScale.config(state='normal')
-        self.LoadedMap = self.FrameCarteGraph["text"]
 
     ShowMap(self)
 

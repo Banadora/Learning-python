@@ -24,6 +24,10 @@ def Move(self, Touche):
         if NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '#':
             InfoSup = "\n\nIl est impossible de traverser un mur !! \nBien essayé. \n\n-1 Vie'."
             self.Lives -= 1
+        elif ((NouvelleLigneDuHero[self.PosX - 1:self.PosX] == 's') or (NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '§')):
+            self.LinesList[self.PosY - 1] = NouvelleLigneDuHero[:self.PosX - 1] + '§' + NouvelleLigneDuHero[self.PosX:]
+            InfoSup = "\n\nOwWwWW un piège à serpent !! \nPas de chance. \n\n-1 Vie'."
+            self.Lives -= 1
         else:
             HeroRemplace = LigneDuHero[self.PosX - 1:self.PosX].replace('~', ' ')
             DebutNouvelleLigne = LigneDuHero[:self.PosX - 1]
@@ -53,6 +57,10 @@ def Move(self, Touche):
         if LigneDuHero[self.PosX - 2:self.PosX - 1] == '#':
             InfoSup = "\n\nIl est impossible de traverser un mur !! \nBien essayé. \n\n-1 Vie'."
             self.Lives -= 1
+        elif ((LigneDuHero[self.PosX - 2:self.PosX - 1] == 's') or (LigneDuHero[self.PosX - 2:self.PosX - 1] == '§')):
+            self.LinesList[self.PosY] = LigneDuHero[:self.PosX - 2] + '§' + LigneDuHero[self.PosX - 1:]
+            InfoSup = "\n\nOwWwWW un piège à serpent !! \nPas de chance. \n\n-1 Vie'."
+            self.Lives -= 1
         else:
             DebutNouvelleLigne = LigneDuHero[0:self.PosX - 2]
             BlancRemplace = LigneDuHero[self.PosX - 2:self.PosX - 1].replace(' ', '~')
@@ -76,6 +84,10 @@ def Move(self, Touche):
         NouvelleLigneDuHero = self.LinesList[self.PosY + 1]
         if NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '#':
             InfoSup = "\n\nIl est impossible de traverser un mur !! \nBien essayé. \n\n-1 Vie'."
+            self.Lives -= 1
+        elif ((NouvelleLigneDuHero[self.PosX - 1:self.PosX] == 's') or (NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '§')):
+            self.LinesList[self.PosY + 1] = NouvelleLigneDuHero[:self.PosX - 1] + '§' + NouvelleLigneDuHero[self.PosX:]
+            InfoSup = "\n\nOwWwWW un piège à serpent !! \nPas de chance. \n\n-1 Vie'."
             self.Lives -= 1
         else:
             HeroRemplace = LigneDuHero[self.PosX - 1:self.PosX].replace('~', ' ')
@@ -105,6 +117,10 @@ def Move(self, Touche):
         LigneDuHero = self.LinesList[self.PosY]
         if LigneDuHero[self.PosX:self.PosX + 1] == "#":
             InfoSup = "\n\nIl est impossible de traverser un mur !! \nBien essayé. \n\n-1 Vie'."
+            self.Lives -= 1
+        elif ((LigneDuHero[self.PosX:self.PosX + 1] == 's') or (LigneDuHero[self.PosX:self.PosX + 1] == '§')):
+            self.LinesList[self.PosY] = LigneDuHero[:self.PosX] + '§' + LigneDuHero[self.PosX + 1:]
+            InfoSup = "\n\nOwWwWW un piège à serpent !! \nPas de chance. \n\n-1 Vie'."
             self.Lives -= 1
         else:
             HeroRemplace = LigneDuHero[self.PosX - 1:self.PosX].replace('~', ' ')
@@ -143,6 +159,7 @@ def Move(self, Touche):
     if self.Lives == 0:
         self.Lives = self.LivesAtStart
         OpenMap(self, self.LoadedMap, 1)
+        InfoSup = ""
 
     if self.EndOfMap == 0:
         self.MsgInfosCarteSup["text"] = InfoSup
