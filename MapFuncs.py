@@ -42,6 +42,7 @@ def OpenMap(self, Carte, StartingMap):
     self.MsgInfosCarte["text"] = ""
     self.EndOfMap = 0
     self.PlayFinalSound = 1
+    self.MapLoaded = 1
 
     self.TempPathCarte = 'Cartes/' + Carte + '.txt'
     #self.FileName = askopenfilename(title="Ouvrir une carte", filetypes=[('txt files', '.txt'), ('all files', '.*')])

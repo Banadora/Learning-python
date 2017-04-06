@@ -32,7 +32,12 @@ class MakeUI(Frame):
         self.EndOfMap = 0
         self.PlayFinalSound = 1
         self.TempPath = ""
-        self.Difficulty = 2
+        self.Difficulty = 99
+        self.NbLignes = 1
+        self.NbColonnes = 1
+        self.PosX = 1
+        self.PosY = 1
+        self.MapLoaded = 0
 
         self.ImagesImport()
 
@@ -143,7 +148,8 @@ class MakeUI(Frame):
             self.Lives = self.LivesAtStart
             self.MsgDifficulty["text"] = "Bonhomme"
 
-        ShowMap(self)
+        if self.MapLoaded == 1:
+            ShowMap(self)
 
 ###################################################################################################################
 ###################################################################################################################
