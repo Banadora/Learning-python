@@ -152,15 +152,18 @@ class MakeUI(Frame):
         value = int(float(val))
         if value == 1:                 # Easy
             self.BlurLevel = 6
-            self.Lives = 6
+            self.LivesAtStart = 6
+            self.Lives = self.LivesAtStart
             self.MsgDifficulty["text"] = "Facile"
         elif value == 2:               # Medium
             self.BlurLevel = 4
-            self.Lives = 4
+            self.LivesAtStart = 4
+            self.Lives = self.LivesAtStart
             self.MsgDifficulty["text"] = "Medium"
         elif value == 3:               # Hard
             self.BlurLevel = 2
-            self.Lives = 2
+            self.LivesAtStart = 2
+            self.Lives = self.LivesAtStart
             self.MsgDifficulty["text"] = "Bonhomme"
 
         ShowMap(self)

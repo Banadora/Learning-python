@@ -41,9 +41,6 @@ def OpenMap(self, Carte, StartingMap):
     self.EndOfMap = 0
     self.PlayFinalSound = 1
 
-    if StartingMap == 1:
-        self.DifficultyScale.config(state='normal')
-
     self.TempPathCarte = 'Cartes/' + Carte + '.txt'
     #self.FileName = askopenfilename(title="Ouvrir une carte", filetypes=[('txt files', '.txt'), ('all files', '.*')])
 
@@ -57,31 +54,31 @@ def OpenMap(self, Carte, StartingMap):
         self.PosY = 1
         self.NbLignes = 6
         self.NbColonnes = 20
-        self.FrameCarteGraph["text"] = " 1 : Jardinet  (Facile)"
+        self.FrameCarteGraph["text"] = "1.0 - Jardinet (Facile)"
     elif '2.0' in self.TempPathCarte:
         self.PosX = 4
         self.PosY = 1
         self.NbLignes = 20
         self.NbColonnes = 20
-        self.FrameCarteGraph["text"] = " 2 : Petite caverne (Moyen)"
+        self.FrameCarteGraph["text"] = "2.0 - Petite caverne (Moyen)"
     elif '3.0' in self.TempPathCarte:
         self.PosX = 10
         self.PosY = 9
         self.NbLignes = 20
         self.NbColonnes = 20
-        self.FrameCarteGraph["text"] = " 3 : Serpentin (Moyen)"
+        self.FrameCarteGraph["text"] = "3.0 - Serpentin (Moyen)"
     elif '4.1' in self.TempPathCarte:
         self.PosX = 3
         self.PosY = 4
         self.NbLignes = 8
         self.NbColonnes = 20
-        self.FrameCarteGraph["text"] = " 4.1 - Plus haut (Facile)"
+        self.FrameCarteGraph["text"] = "4.1 - Plus haut (Facile)"
     elif '5.1' in self.TempPathCarte:
         self.PosX = 4
         self.PosY = 9
         self.NbLignes = 12
         self.NbColonnes = 20
-        self.FrameCarteGraph["text"] = " 5.1 - Maison (Moyen)"
+        self.FrameCarteGraph["text"] = "5.1 - Maison (Moyen)"
 
 ######################################################
     self.MsgInfosCarte["font"] = ('Lucida Console', 8)
@@ -100,6 +97,10 @@ def OpenMap(self, Carte, StartingMap):
          + str(self.PosY + 1) + "   Colonne : " + str(self.PosX) + \
          "\n\n\nVies restantes : {0}".format(self.Lives) + \
         "\n\n\n---------------------------------------------------------\n\n"
+
+    if StartingMap == 1:
+        self.DifficultyScale.config(state='normal')
+        self.LoadedMap = self.FrameCarteGraph["text"]
 
     ShowMap(self)
 

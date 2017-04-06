@@ -22,7 +22,8 @@ def Move(self, Touche):
         LigneDuHero = self.LinesList[self.PosY]
         NouvelleLigneDuHero = self.LinesList[self.PosY - 1]
         if NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '#':
-            InfoSup = "\n\nIl est impossible de traverser un mur !! \nBien essayé."
+            InfoSup = "\n\nIl est impossible de traverser un mur !! \nBien essayé. \n\n-1 Vie'."
+            self.Lives -= 1
         else:
             HeroRemplace = LigneDuHero[self.PosX - 1:self.PosX].replace('~', ' ')
             DebutNouvelleLigne = LigneDuHero[:self.PosX - 1]
@@ -50,7 +51,8 @@ def Move(self, Touche):
     elif TouchePressee == "Q":
         LigneDuHero = self.LinesList[self.PosY]
         if LigneDuHero[self.PosX - 2:self.PosX - 1] == '#':
-            InfoSup = "\n\nIl est impossible de traverser un mur !! \nBien essayé."
+            InfoSup = "\n\nIl est impossible de traverser un mur !! \nBien essayé. \n\n-1 Vie'."
+            self.Lives -= 1
         else:
             DebutNouvelleLigne = LigneDuHero[0:self.PosX - 2]
             BlancRemplace = LigneDuHero[self.PosX - 2:self.PosX - 1].replace(' ', '~')
@@ -73,7 +75,8 @@ def Move(self, Touche):
         LigneDuHero = self.LinesList[self.PosY]
         NouvelleLigneDuHero = self.LinesList[self.PosY + 1]
         if NouvelleLigneDuHero[self.PosX - 1:self.PosX] == '#':
-            InfoSup = "\n\nIl est impossible de traverser un mur !! \nBien essayé."
+            InfoSup = "\n\nIl est impossible de traverser un mur !! \nBien essayé. \n\n-1 Vie'."
+            self.Lives -= 1
         else:
             HeroRemplace = LigneDuHero[self.PosX - 1:self.PosX].replace('~', ' ')
             DebutNouvelleLigne = LigneDuHero[:self.PosX - 1]
@@ -101,7 +104,8 @@ def Move(self, Touche):
     elif TouchePressee == "D":
         LigneDuHero = self.LinesList[self.PosY]
         if LigneDuHero[self.PosX:self.PosX + 1] == "#":
-            InfoSup = "\n\nIl est impossible de traverser un mur !! \nBien essayé."
+            InfoSup = "\n\nIl est impossible de traverser un mur !! \nBien essayé. \n\n-1 Vie'."
+            self.Lives -= 1
         else:
             HeroRemplace = LigneDuHero[self.PosX - 1:self.PosX].replace('~', ' ')
             BlancRemplace = LigneDuHero[self.PosX:self.PosX + 1].replace(' ', '~')
@@ -135,6 +139,10 @@ def Move(self, Touche):
         "   Colonne : " + str(self.PosX) + \
     "\n\n\nVies restantes : {0}".format(self.Lives) + \
     "\n\n\n---------------------------------------------------------\n\n"
+
+    if self.Lives == 0:
+        self.Lives = self.LivesAtStart
+        OpenMap(self, self.LoadedMap, 1)
 
     if self.EndOfMap == 0:
         self.MsgInfosCarteSup["text"] = InfoSup
