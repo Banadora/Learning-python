@@ -20,7 +20,8 @@ class MakeUI(Frame):
         Frame.__init__(self, Fenetre, width=1500, height=700, **kwargs)
 
         self.pack(fill=BOTH)
-        self.KeysInfos = "\nVous êtes un héros qui cherche à s'échapper \ndu labyrinthe pour gagner du $$$\n\n" + \
+        self.KeysInfos = "\nVous êtes un héros qui cherche à s'échapper \n \
+        du labyrinthe pour gagner du $$$\n\n" + \
          " Appuyez Z pour aller vers le haut\n" + \
          "   Appuyez Q pour aller vers la gauche\n" \
          "   Appuyez D pour aller vers la droite\n" \

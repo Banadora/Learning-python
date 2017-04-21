@@ -12,5 +12,7 @@ UI = MakeUI(Fenetre)
 
 UI.mainloop()
 
-UI.destroy()
-
+try:
+    UI.destroy()
+except:
+    pass
